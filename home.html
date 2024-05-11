@@ -6,25 +6,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Changa:wght@200..800&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&family=Yantramanav:wght@100;300;400;500;700;900&display=swap');
+       @import url('https://fonts.googleapis.com/css2?family=Changa:wght@200..800&family=Mukta:wght@200;300;400;500;600;700;800&family=Reddit+Sans:ital,wght@0,200..900;1,200..900&family=Yantramanav:wght@100;300;400;500;700;900&display=swap');
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Reddit Sans", sans-serif;
+  font-family: "Mukta", sans-serif;
 } 
 body {
-    background: #3f2a0f;
+    background: #4f5757;
 }
 nav{
   display: flex;
   height: 80px;
   width: 100%;
-  background: #00000086;
+  background: #000000;
   align-items: center;
   justify-content: space-between;
   padding: 0 50px 0 100px;
   flex-wrap: wrap;
+  position: fixed;
 }
 nav .logo{
   color: #fff;
@@ -48,6 +49,8 @@ nav ul li a{
   border-radius: 5px;
   letter-spacing: 1px;
   transition: all 0.3s ease;
+  line-height: 23px;
+
 }
 nav ul li a.active,
 nav ul li a:hover{
@@ -81,6 +84,7 @@ nav .menu-btn i{
     text-align: center;
     display: block;
     transition: all 0.3s ease;
+    position: fixed;
   }
   #click:checked ~ ul{
     left: 0;
@@ -106,12 +110,56 @@ nav .menu-btn i{
     background: none;
     color: rgb(0, 213, 255);
   }
+  .contents {
+    top: 45%;
+    position: relative;
+    color: rgb(255 255 255);
+    text-align: center;
+    line-height: 87px;
+    z-index: -1;
+}
+.content div{
+  font-size: 40px;
+  font-weight: 700;
+}
+.contents img{
+  width: 26%;
+}
+p {
+  width: 84%;
+    line-height: 40px;
+    position: relative;
+    left: 9%;
+    font-size: 62px;
+    color: rgb(255 255 255);
+    top: 1em;
+    font-weight: 500;
+}
+
 @media (max-width: 1000px){
   nav{
     padding: 0 40px 0 50px;
   }
 }
 @media (max-width: 920px) {
+  .contents {
+    top: 45%;
+    position: relative;
+    color: rgb(255 255 255);
+    text-align: center;
+    line-height: 87px;
+}
+p {
+  width: 78%;
+        position: relative;
+        left: 9%;
+        font-size: 62px;
+        color: rgb(255 255 255);
+        top: 0em;
+        font-weight: 500;
+        line-height: 77px;
+
+}
   nav .menu-btn i{
     display: block;
   }
@@ -142,6 +190,8 @@ nav .menu-btn i{
     display: block;
     font-size: 20px;
     transition: 0s;
+    line-height: 23px;
+
   }
   #click:checked ~ ul li a{
     margin-left: 0px;
@@ -151,38 +201,27 @@ nav .menu-btn i{
     background: none;
     color: cyan;
   }
+  .contents img{
+  width: 92%;
 }
-.content{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  z-index: -1;
-  width: 100%;
-  padding: 0 30px;
-  color: #ffffff;
-}
-.content div{
-  font-size: 40px;
-  font-weight: 700;
 } 
 a{
     text-decoration: none;
     color: white;
 }
 span{
-    font-size: 24px;
+  font-size: 24px;
     color: white;
     position: relative;
     top: 1%;
     left: 0%;
+    line-height: 48px;
 }
     </style>
   </head>
   <body>
     <nav>
-      <div class="logo">BStory</div>
+      <div class="logo"><a href="home.html" style="font-size: 25px;font-family: Yantramanav , sans-serif;">BStory</a></div>
       <input type="checkbox" id="click">
       <label for="click" class="menu-btn">
         <i class="fas fa-bars"></i>
@@ -192,17 +231,15 @@ span{
         <span>STORY</span>
         <li><a href="now.story.html">Present chapter (now)</a></li>
         <li><a href="allpre.html">All previous chapter</a></li>
-        <li><a href="">Story poster</a></li>
+        <li><a href="poster.html">Story poster</a></li>
         <hr>
         <span>WEBSITE</span>
-        <li><a href="">Why brown ?</a></li>
         <li><a href="">About us ?</a></li>
       </ul>
     </nav>
-    <div class="content">
-      <div>Book Can Teach Anything</div>
-      <div></div>
-    </div>
-
+    <style>
+    </style>
+    <div class="contents">
+      <p>Book can teach anything</p>
   </body>
 </html>
