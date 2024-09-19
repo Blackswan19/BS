@@ -3,248 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BsWatchin</title>
+    <title>BS</title>
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/gW8Py0B/BS.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald|Noto+Sans">
     <style>
-        /* General Styles */
+        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Orbitron:wght@400..900&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Strait&display=swap');
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            color: rgb(255, 255, 255);
+            font-family: "Red Hat Display", sans-serif;
         }
-
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #141414; /* Dark background */
-            color: white;
-            overflow-x: hidden; /* Prevent horizontal scroll */
-        }
-
-        a {
-            color: white;
-            text-decoration: none;
-        }
-
-        h1, h2 {
-            font-weight: normal;
-        }
-
-        /* Navbar Styles */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 50px;
-            background-color: rgba(20, 20, 20, 0.8);
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            margin: 0; 
+            min-height: 100vh; /* Ensure body takes full screen height */
+            background-image: url("https://images.unsplash.com/photo-1717954681381-7a5b91af265c?q=80&w=2232&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+            color: #ffffff; 
+            font-family: "Noto Sans", sans-serif;
+            text-align: center;
             position: fixed;
             width: 100%;
-            top: 0;
-            z-index: 100;
+            letter-spacing: 0.6px;
         }
 
-        .logo a {
-            font-size: 24px;
-            font-weight: bold;
+        ul {
+            list-style-type: none; 
+            padding: 0; 
+            margin: 0; 
+            position: relative; /* Changed from fixed */
         }
 
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 30px;
+        li {
+            margin: 21px 0px;
+            width: 248px;
         }
 
-        .nav-links li a {
-            font-size: 16px;
-            font-weight: bold;
-            transition: color 0.3s ease;
+        ul a {
+            display: block; 
+            text-decoration: none; 
+            font-size: 15px; 
+            padding: 10px 30px; 
+            border-radius: 12px; 
+            color: #ffffff; 
+            background: #004cff;
+            border: solid 1px #004cff;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, border-color 0.3s ease; 
         }
 
-        .nav-links li a:hover {
-            color: #e50914; /* Netflix red */
+        ul a:hover {
+            background-color: #004cff; 
+            color: #ffffff; 
+            transform: scale(1.05); 
+            border-color: #004cff; 
         }
 
-        .profile a {
-            font-size: 16px;
-            font-weight: bold;
-            border: 1px solid white;
-            padding: 8px 15px;
-            border-radius: 5px;
+        ul a:active {
+            background-color: #004cff;
+            color: #1f1f1f; 
+            border-color: #004cff;
         }
-
-        /* Hero Section Styles */
-        .hero {
-            position: relative;
-            height: 90vh;
-            background-image: url('https://source.unsplash.com/1600x900/?movies,cinema');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-        }
-
-        .hero:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.5); /* Dark overlay */
-            z-index: 1;
-        }
-
-        .hero-content {
-            z-index: 2;
-        }
-
-        .hero h1 {
-            font-size: 4rem;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-        }
-
-        .play-btn, .info-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            margin-right: 10px;
-            cursor: pointer;
-        }
-
-        .play-btn {
-            background-color: #004cff; /* Netflix red */
-            color: white;
-        }
-
-        .info-btn {
-            background-color: rgba(255, 255, 255, 0.3);
-            color: white;
-        }
-
-        /* Movie Scrolling Section */
-        .movie-section {
-            padding: 50px;
-            margin-top: -100px;
-        }
-
-        .movie-section h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-
-        .movie-row {
-            display: flex;
-            overflow-x: auto;
-            padding-bottom: 20px;
-        }
-
-        .movie-row::-webkit-scrollbar {
-            display: none; /* Hide scrollbar */
-        }
-
-        .movie-thumbnail {
-            min-width: 200px;
-            margin-right: 15px;
-            transition: transform 0.3s ease;
-        }
-
-        .movie-thumbnail img {
-            width: 100%;
-            border-radius: 10px;
-        }
-
-        .movie-thumbnail:hover {
-            transform: scale(1.1);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 20px;
-            }
-
-            .nav-links {
-                display: none; /* Hide on smaller screens for simplicity */
-            }
-
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .play-btn, .info-btn {
-                padding: 8px 15px;
-                font-size: 0.9rem;
-            }
-
-            .movie-thumbnail {
-                min-width: 150px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-
-            .hero p {
-                font-size: 0.9rem;
-            }
-
-            .play-btn, .info-btn {
-                padding: 5px 10px;
-                font-size: 0.8rem;
-            }
-
-            .movie-thumbnail {
-                min-width: 120px;
+        
+        @media (max-width: 600px) {
+            a {
+                font-size: 18px; 
+                padding: 12px 24px; 
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <a href="#">BsWatchin</a>
-            </div>
-            <div class="profile">
-                <a href="#">Profile</a>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Featured Show Title</h1>
-            <p>Watch now, new episodes available</p>
-            <button class="play-btn">Play</button>
-            <button class="info-btn">More Info</button>
-        </div>
-    </section>
-
-    <!-- Movie Scrolling Section -->
-    <section class="movie-section">
-        <h2>Popular now</h2>
-        <div class="movie-row">
-            <div class="movie-thumbnail"><img src="https://via.placeholder.com/200x300" alt="Movie 1"></div>
-            <div class="movie-thumbnail"><img src="https://via.placeholder.com/200x300" alt="Movie 2"></div>
-            <div class="movie-thumbnail"><img src="https://via.placeholder.com/200x300" alt="Movie 3"></div>
-            <div class="movie-thumbnail"><img src="https://via.placeholder.com/200x300" alt="Movie 4"></div>
-            <div class="movie-thumbnail"><img src="https://via.placeholder.com/200x300" alt="Movie 5"></div>
-            <div class="movie-thumbnail"><img src="https://via.placeholder.com/200x300" alt="Movie 6"></div>
-        </div>
-    </section>
+    <ul>
+        <p>From Bs</p><br><br>
+        <li><a  href="https://blackswan19.github.io/bsfesta/music.html">BsFesta</a></li>
+        <li><a  href="https://blackswan19.github.io/bot/chatbot.html">BsBot</a></li>
+        <li><a  href="https://blackswan19.github.io/Educate/reminder.html">BsReminder</a></li>
+        <li><a  href="https://blackswan19.github.io/Educate/hider.html">BsHider</a></li>
+        <li><a  href="https://blackswan19.github.io/Educate/Scheduler.html">BsScheduler</a></li>
+        <li><a  href="https://blackswan19.github.io/Educate/savenotes.html">BsNote</a></li>
+        <li><a  href="https://blackswan19.github.io/Educate/websave.html">BsHelper</a></li>   
+        <li><a  href="https://blackswan19.github.io/Educate/stoper.html">BsAdstoper</a></li>   
+    </ul>
 </body>
 </html>
