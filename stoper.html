@@ -3,20 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BsAdstoper</title>
-    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/gW8Py0B/BS.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald|Noto+Sans">
+    <title>Modify YouTube Link</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Orbitron:wght@400..900&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Strait&display=swap');
         * {
             color: rgb(255, 255, 255);
             font-family: "Red Hat Display", sans-serif;
         }
-
+        /* Google-inspired dark theme */
         body {
             background-color: #202124;
             color: #e8eaed;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
@@ -27,9 +25,9 @@
         }
 
         .container {
-            text-align: center;
-            width: 100%;
-            position: fixed;
+    text-align: center;
+    width: 100%;
+    position: fixed;
         }
 
         h2 {
@@ -74,54 +72,38 @@
         }
 
         #result {
-            margin-top: 20px;
+            margin-top: 15px;
             font-size: 18px;
         }
 
-        /* Full-screen video overlay */
-        #fullscreenOverlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transform: rotate(90deg); /* Rotate the video by 90 degrees */
-        }
-
-        iframe {
-            width: 100vh;
-            height: 100vw;
-            border: none;
-        }
-
-        /* Close button */
-        #closeBtn {
-                position: fixed;
+        /* Play button styling */
+        #result button {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 24px;
+    background-color:  #004cff;
+    color: rgb(197 197 197);
     cursor: pointer;
-    z-index: 1100;
-    background: none;
-    top: -11.5em;
-    right: 41em;
-    font-size: 25px;
-
-            }
-
-        p {
-            position: fixed;
-            bottom: 0px;
-            color: #767676;
-            width: 92%;
-            border-radius: 10px;
-            border: solid 1px #4b4b4b;
-            padding: 13px;
+    font-size: 16px;
+    width: 16%;
         }
+        #result button:hover {
+            background-color:#004cff7d;
+        }
+        p{
+            position: fixed;
+    bottom: 0px;
+    color: #767676;
+    width: 92%;
+    border-radius: 10px;
+    border: solid 1px #4b4b4b;
+    padding: 13px;
+        }
+        iframe{
+            width: 40%;
+    height: 18em;
 
+        }
         @media (max-width: 768px) {
             input[type="text"] {
                 width: 90%;
@@ -131,81 +113,97 @@
                 width: 35%;
                 max-width: 300px;
             }
-
-            p {
+            p{
                 position: fixed;
-                bottom: 0px;
-                color: #767676;
-                width: 86%;
-                border-radius: 10px;
-                border: solid 1px #4b4b4b;
-                padding: 13px;
-                font-size: 14px;
-            }
+        bottom: 0px;
+        color: #767676;
+        width: 86%;
+        border-radius: 10px;
+        border: solid 1px #4b4b4b;
+        padding: 13px;
+        font-size: 14px;
 
-            #fullscreenOverlay iframe {
-                width: 100vw;
-                height: 100vh;
             }
-
-            h2 {
-                color: #9aa0a6;
-                font-size: 40px;
-            }
-            #closeBtn {
-                position: fixed;
+            #result button {
+            padding: 12px 30px;
+    border: none;
+    border-radius: 24px;
+    background-color: #004cff;
+    color: rgb(197 197 197);
     cursor: pointer;
-    z-index: 1100;
-    background: none;
-    top: 8.5em;
-    right: 24em;
-    font-size: 19px;
-            }
+    font-size: 16px;
+    width: 65%;
+        }
+        .container {
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    top: 30%;
+        }
+        h2 {
+            color: #9aa0a6;
+            font-size: 40px;
+        }
+        iframe{
+            width: 90%;
+        height: 12em;
+        position: fixed;
+        top: 3%;
+        left: 20px;
+        border-radius: 10px;
+        }
         }
     </style>
     <script>
         function modifyLink() {
             const userInput = document.getElementById("userLink").value;
-            let videoId = '';
+            let modifiedLink = userInput;
 
-            // Extract YouTube video ID from the URL
-            const youtubeRegex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-            const match = userInput.match(youtubeRegex);
+            // Check if the link contains 'youtube'
+            if (userInput.toLowerCase().includes("youtube")) {
+                // Replace 'youtube' with 'yout-ube'
+                modifiedLink = userInput.replace(/youtube/i, "yout-ube");
 
-            if (match) {
-                videoId = match[1];
-                const embedLink = `https://www.youtube.com/embed/${videoId}?autoplay=1&fs=1`;
-
-                // Show the full-screen overlay with the embedded video
-                document.getElementById("fullscreenOverlay").style.display = 'flex';
-                document.getElementById("videoFrame").src = embedLink;
+                // Extract the video ID from the YouTube URL to embed the video
+                const videoId = userInput.split('v=')[1]?.split('&')[0];
+                if (videoId) {
+                    // Show the embedded video in an iframe
+                    document.getElementById("result").innerHTML = `
+                        <iframe id="videoFrame" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <br>
+                        <button onclick="toggleFullScreen()">Full Screen</button>
+                    `;
+                } else {
+                    document.getElementById("result").innerHTML = "Invalid YouTube link.";
+                }
             } else {
-                document.getElementById("result").innerHTML = "Invalid URL";
+                document.getElementById("result").innerHTML = "The input does not contain 'youtube'.";
             }
         }
 
-        // Close the full-screen overlay
-        function closeFullScreen() {
-            document.getElementById("fullscreenOverlay").style.display = 'none';
-            document.getElementById("videoFrame").src = '';  // Stop the video
+        // Function to toggle fullscreen mode for iframe
+        function toggleFullScreen() {
+            const iframe = document.getElementById("videoFrame");
+            if (iframe.requestFullscreen) {
+                iframe.requestFullscreen(); // Standard fullscreen
+            } else if (iframe.mozRequestFullScreen) { // Firefox
+                iframe.mozRequestFullScreen();
+            } else if (iframe.webkitRequestFullscreen) { // Chrome, Safari, Opera
+                iframe.webkitRequestFullscreen();
+            } else if (iframe.msRequestFullscreen) { // IE/Edge
+                iframe.msRequestFullscreen();
+            }
         }
     </script>
 </head>
 <body>
     <div class="container">
-        <h2>BsAdstoper</h2>
-        <input type="text" id="userLink" placeholder="Paste the YouTube link here...">
+        <h2>Enter YouTube Link</h2>
+        <input type="text" id="userLink" placeholder="Enter your YouTube link">
         <br>
         <button onclick="modifyLink()">Submit</button>
+
         <div id="result"></div>
     </div>
-
-    <!-- Full-screen video overlay -->
-    <div id="fullscreenOverlay">
-        <button id="closeBtn" onclick="closeFullScreen()">X</button>
-        <iframe id="videoFrame" allowfullscreen></iframe>
-    </div>
-
-    <p>You can create a playlist of your favorite songs, movies, or any other videos on YouTube and then share the link here. We will play them without any interruptions from ads.</p>
 </body>
 </html>
