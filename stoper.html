@@ -148,21 +148,20 @@
         function modifyLink() {
             const userInput = document.getElementById("userLink").value;
             let modifiedLink = userInput;
-
+    
             // Check if the link contains 'youtube'
             if (userInput.toLowerCase().includes("youtube")) {
                 // Replace 'youtube' with 'yout-ube'
                 modifiedLink = userInput.replace(/youtube/i, "yout-ube");
-
-                // Show the Play button
-                document.getElementById("result").innerHTML = `
-                    <button onclick="window.open('${modifiedLink}', '_blank')">Play in full screen</button>
-                `;
+    
+                // Redirect to the modified link in the same page
+                window.location.href = modifiedLink;
             } else {
                 document.getElementById("result").innerHTML = "Invalid URL";
             }
         }
     </script>
+    
 </head>
 <body>
     <div class="container">
