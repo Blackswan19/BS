@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BsAddstoper</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #001035;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #00000052;
+            border: 2px solid #004cff;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            border: solid 1px wheat;
+        }
+
+        h2 {
+            color: #ffffff;
+            font-size: 1.5rem;
+        }
+
+        input[type="text"] {
+            width: 90%;
+            padding: 10px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #ffffff;
+            border-radius: 36px;
+            font-size: 14px;
+            background: none;
+            outline: none;
+            color: #ffffff;
+        }
+
+        button {
+            background-color: #004cff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0036bf;
+        }
+
+        #result {
+            margin-top: 20px;
+            color: #004cff;
+        }
+
+        iframe {
+            width: 100%;
+            height: 200px;
+            margin-top: 20px;
+            border: 2px solid #004cff;
+            border-radius: 12px;
+        }
+
+        @media (min-width: 600px) {
+            iframe {
+                height: 315px;
+            }
+        }
+    </style>
+    <script>
+        function modifyLink() {
+            const userInput = document.getElementById("userLink").value;
+            let modifiedLink = userInput;
+
+            // Check if the link contains 'youtube'
+            if (userInput.includes("youtube")) {
+                // Extract the video ID from the YouTube URL
+                const videoId = userInput.split('v=')[1];
+                const ampersandPosition = videoId.indexOf('&');
+                const cleanVideoId = ampersandPosition !== -1 ? videoId.substring(0, ampersandPosition) : videoId;
+
+                // Generate embed link for the iframe
+                const embedLink = `https://www.youtube.com/embed/${cleanVideoId}`;
+
+                // Show the video in an iframe
+                document.getElementById("result").innerHTML = `
+                    <iframe src="${embedLink}" frameborder="0" allowfullscreen></iframe>
+                `;
+            } else {
+                document.getElementById("result").innerHTML = "Wrong URL or it can't be accepted";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>BsAddstoper</h2>
+        <input type="text" id="userLink" placeholder="Paste the YouTube link here">
+        <br>
+        <button onclick="modifyLink()">Submit</button>
+
+        <div id="result"></div>
+    </div>
+</body>
+</html>
