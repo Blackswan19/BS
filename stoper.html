@@ -28,9 +28,9 @@
         }
 
         .container {
-            text-align: center;
-            width: 100%;
-            position: fixed;
+    text-align: center;
+    width: 100%;
+    position: fixed;
         }
 
         h2 {
@@ -81,37 +81,27 @@
 
         /* Play button styling */
         #result button {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 24px;
-            background-color:  #004cff;
-            color: rgb(197 197 197);
-            cursor: pointer;
-            font-size: 16px;
-            width: 16%;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 24px;
+    background-color:  #004cff;
+    color: rgb(197 197 197);
+    cursor: pointer;
+    font-size: 16px;
+    width: 16%;
         }
         #result button:hover {
             background-color:#004cff7d;
         }
-
-        /* Fullscreen icon */
-        .fullscreen-icon {
-            margin-top: 30px;
-            font-size: 30px;
-            cursor: pointer;
-            color: #e8eaed;
-        }
-
-        p {
+        p{
             position: fixed;
-            bottom: 0px;
-            color: #767676;
-            width: 92%;
-            border-radius: 10px;
-            border: solid 1px #4b4b4b;
-            padding: 13px;
+    bottom: 0px;
+    color: #767676;
+    width: 92%;
+    border-radius: 10px;
+    border: solid 1px #4b4b4b;
+    padding: 13px;
         }
-
         @media (max-width: 768px) {
             input[type="text"] {
                 width: 90%;
@@ -121,27 +111,37 @@
                 width: 35%;
                 max-width: 300px;
             }
+            p{
+                position: fixed;
+        bottom: 0px;
+        color: #767676;
+        width: 86%;
+        border-radius: 10px;
+        border: solid 1px #4b4b4b;
+        padding: 13px;
+        font-size: 14px;
 
-            p {
-                width: 86%;
-                font-size: 14px;
             }
-
             #result button {
-                width: 65%;
-            }
-
-            .container {
-                top: 30%;
-            }
-
-            h2 {
-                font-size: 40px;
-            }
-
-            .fullscreen-icon {
-                font-size: 24px;
-            }
+            padding: 12px 30px;
+    border: none;
+    border-radius: 24px;
+    background-color: #005e56;
+    color: rgb(197 197 197);
+    cursor: pointer;
+    font-size: 16px;
+    width: 65%;
+        }
+        .container {
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    top: 30%;
+        }
+        h2 {
+            color: #9aa0a6;
+            font-size: 40px;
+        }
         }
     </style>
     <script>
@@ -154,30 +154,12 @@
                 // Replace 'youtube' with 'yout-ube'
                 modifiedLink = userInput.replace(/youtube/i, "yout-ube");
 
-                // Redirect to the modified link in the same page
-                window.location.href = modifiedLink;
+                // Show the Play button
+                document.getElementById("result").innerHTML = `
+                    <button onclick="window.open('${modifiedLink}', '_self')">Play in full screen</button>
+                `;
             } else {
                 document.getElementById("result").innerHTML = "Invalid URL";
-            }
-        }
-
-        // Function to enter fullscreen mode
-        function toggleFullScreen() {
-            const elem = document.documentElement;
-            if (!document.fullscreenElement) {
-                if (elem.requestFullscreen) {
-                    elem.requestFullscreen();
-                } else if (elem.mozRequestFullScreen) { // Firefox
-                    elem.mozRequestFullScreen();
-                } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, and Opera
-                    elem.webkitRequestFullscreen();
-                } else if (elem.msRequestFullscreen) { // IE/Edge
-                    elem.msRequestFullscreen();
-                }
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
             }
         }
     </script>
@@ -189,9 +171,7 @@
         <br>
         <button onclick="modifyLink()">Submit</button>
         <div id="result"></div>
-
-        <!-- Fullscreen icon -->
-        <i class="fas fa-expand fullscreen-icon" onclick="toggleFullScreen()" title="Go Full Screen"></i>
+        
     </div>
     <p>You can create a playlist of your favorite songs, movies, or any other videos on YouTube and then share the link here. We will play them without any interruptions from ads.</p>
 </body>
