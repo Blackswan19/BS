@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modify YouTube Link</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Orbitron:wght@400..900&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Strait&display=swap');
+                @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Orbitron:wght@400..900&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Strait&display=swap');
         * {
             color: rgb(255, 255, 255);
             font-family: "Red Hat Display", sans-serif;
@@ -167,9 +167,12 @@
                 // Extract the video ID from the YouTube URL to embed the video
                 const videoId = userInput.split('v=')[1]?.split('&')[0];
                 if (videoId) {
+                    // Use nocookie version for privacy
+                    const nocookieLink = `https://www.youtube-nocookie.com/embed/${videoId}`;
+
                     // Show the embedded video in an iframe
                     document.getElementById("result").innerHTML = `
-                        <iframe id="videoFrame" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe id="videoFrame" src="${nocookieLink}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         <br>
                         <button onclick="toggleFullScreen()">Full Screen</button>
                     `;
