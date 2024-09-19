@@ -148,12 +148,16 @@
         function modifyLink() {
             const userInput = document.getElementById("userLink").value;
             let modifiedLink = userInput;
-
-            // Check if the link contains 'youtube'
-            if (userInput.toLowerCase().includes("youtube")) {
-                // Replace 'youtube' with 'yout-ube'
-                modifiedLink = userInput.replace(/youtube/i, "yout-ube");
-
+    
+            // Check if the link contains 'youtube' or 'youtu.be'
+            if (userInput.toLowerCase().includes("youtube") || userInput.toLowerCase().includes("youtu.be")) {
+                // Replace 'youtube' with 'yout-ube' and ensure 'youtu.be' links are correctly formatted
+                if (userInput.toLowerCase().includes("youtube")) {
+                    modifiedLink = userInput.replace(/youtube/i, "yout-ube");
+                } else if (userInput.toLowerCase().includes("youtu.be")) {
+                    modifiedLink = userInput.replace(/youtu\.be/i, "yout-ube");
+                }
+    
                 // Show the Play button
                 document.getElementById("result").innerHTML = `
                     <button onclick="window.open('${modifiedLink}', '_self')">Play in full screen</button>
@@ -163,6 +167,7 @@
             }
         }
     </script>
+    
 </head>
 <body>
     <div class="container">
