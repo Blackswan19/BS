@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BsAddstoper</title>
+    <title>Modify YouTube Link</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -23,7 +23,7 @@
             text-align: center;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 90%;
-            max-width: 400px;
+            max-width: 600px;
             border: solid 1px wheat;
         }
 
@@ -34,11 +34,11 @@
 
         input[type="text"] {
             width: 90%;
-            padding: 10px;
+            padding: 14px 0px 15px 30px;
             margin-top: 20px;
             margin-bottom: 20px;
             border: 1px solid #ffffff;
-            border-radius: 36px;
+            border-radius: 15px;
             font-size: 14px;
             background: none;
             outline: none;
@@ -85,29 +85,33 @@
             let modifiedLink = userInput;
 
             // Check if the link contains 'youtube'
-            if (userInput.includes("youtube")) {
-                // Extract the video ID from the YouTube URL
-                const videoId = userInput.split('v=')[1];
-                const ampersandPosition = videoId.indexOf('&');
-                const cleanVideoId = ampersandPosition !== -1 ? videoId.substring(0, ampersandPosition) : videoId;
+            if (userInput.toLowerCase().includes("youtube")) {
+                // Extract the video ID from the URL
+                const videoIdMatch = userInput.match(/[?&]v=([^&]+)/);
+                const videoId = videoIdMatch ? videoIdMatch[1] : null;
 
-                // Generate embed link for the iframe
-                const embedLink = `https://www.youtube.com/embed/${cleanVideoId}`;
+                if (videoId) {
+                    // Replace 'youtube' with 'yout-ube'
+                    modifiedLink = userInput.replace(/youtube/i, "yout-ube");
 
-                // Show the video in an iframe
-                document.getElementById("result").innerHTML = `
-                    <iframe src="${embedLink}" frameborder="0" allowfullscreen></iframe>
-                `;
+                    // Show the Play button and the embedded video
+                    document.getElementById("result").innerHTML = `
+                        <button onclick="window.open('${modifiedLink}', '_blank')">Play</button>
+                        <iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>
+                    `;
+                } else {
+                    document.getElementById("result").innerHTML = "Invalid YouTube URL.";
+                }
             } else {
-                document.getElementById("result").innerHTML = "Wrong URL or it can't be accepted";
+                document.getElementById("result").innerHTML = "The input does not contain 'youtube'.";
             }
         }
     </script>
 </head>
 <body>
     <div class="container">
-        <h2>BsAddstoper</h2>
-        <input type="text" id="userLink" placeholder="Paste the YouTube link here">
+        <h2>Enter YouTube Link</h2>
+        <input type="text" id="userLink" placeholder="Enter your YouTube link">
         <br>
         <button onclick="modifyLink()">Submit</button>
 
