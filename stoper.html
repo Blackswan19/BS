@@ -13,11 +13,10 @@
             color: rgb(255, 255, 255);
             font-family: "Red Hat Display", sans-serif;
         }
-        /* Google-inspired dark theme */
+
         body {
             background-color: #202124;
             color: #e8eaed;
-            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
@@ -79,12 +78,40 @@
             font-size: 18px;
         }
 
-        iframe {
-            margin-top: 20px;
-            width: 100%;
+        /* Full-screen video overlay */
+        #fullscreenOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
             height: 100vh;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: rotate(90deg); /* Rotate the video by 90 degrees */
+        }
+
+        iframe {
+            width: 100vh;
+            height: 100vw;
             border: none;
-            border-radius: 12px;
+        }
+
+        /* Close button */
+        #closeBtn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff4747;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 10px 15px;
+            cursor: pointer;
+            z-index: 1100;
         }
 
         p {
@@ -118,8 +145,8 @@
                 font-size: 14px;
             }
 
-            iframe {
-                width: 100%;
+            #fullscreenOverlay iframe {
+                width: 100vw;
                 height: 100vh;
             }
 
@@ -142,13 +169,18 @@
                 videoId = match[1];
                 const embedLink = `https://www.youtube.com/embed/${videoId}?autoplay=1&fs=1`;
 
-                // Embed the video in the result div with fullscreen enabled
-                document.getElementById("result").innerHTML = `
-                    <iframe src="${embedLink}" allowfullscreen></iframe>
-                `;
+                // Show the full-screen overlay with the embedded video
+                document.getElementById("fullscreenOverlay").style.display = 'flex';
+                document.getElementById("videoFrame").src = embedLink;
             } else {
                 document.getElementById("result").innerHTML = "Invalid URL";
             }
+        }
+
+        // Close the full-screen overlay
+        function closeFullScreen() {
+            document.getElementById("fullscreenOverlay").style.display = 'none';
+            document.getElementById("videoFrame").src = '';  // Stop the video
         }
     </script>
 </head>
@@ -160,6 +192,13 @@
         <button onclick="modifyLink()">Submit</button>
         <div id="result"></div>
     </div>
+
+    <!-- Full-screen video overlay -->
+    <div id="fullscreenOverlay">
+        <button id="closeBtn" onclick="closeFullScreen()">X</button>
+        <iframe id="videoFrame" allowfullscreen></iframe>
+    </div>
+
     <p>You can create a playlist of your favorite songs, movies, or any other videos on YouTube and then share the link here. We will play them without any interruptions from ads.</p>
 </body>
 </html>
