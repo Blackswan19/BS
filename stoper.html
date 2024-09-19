@@ -3,117 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modify YouTube Link</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .container {
-            background-color: #fff;
-            border: 2px solid #004cff;
-            border-radius: 10px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
-            color: #004cff;
-        }
-
-        input[type="text"] {
-            width: 80%;
-            padding: 10px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            border: 2px solid #004cff;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        button {
-            background-color: #004cff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #0036bf;
-        }
-
-        #result {
-            margin-top: 20px;
-        }
-
-        iframe {
-            width: 100%;
-            height: 500px;
-            margin-top: 20px;
-            border: 2px solid #004cff;
-            border-radius: 10px;
-        }
-    </style>
-    <script>
-        function modifyLink() {
-            const userInput = document.getElementById("userLink").value;
-            
-            // Extract the video ID from the YouTube URL
-            let videoId;
-            if (userInput.includes("v=")) {
-                videoId = userInput.split('v=')[1].split('&')[0];
-            } else if (userInput.includes("youtu.be/")) {
-                videoId = userInput.split('youtu.be/')[1].split('?')[0];
-            } else {
-                document.getElementById("result").innerHTML = "Invalid YouTube link.";
-                return;
-            }
-
-            // Generate the nocookie YouTube embed link
-            const nocookieLink = `https://www.youtube-nocookie.com/embed/${videoId}`;
-
-            // Show the embedded video in an iframe
-            document.getElementById("result").innerHTML = `
-                <iframe id="videoFrame" src="${nocookieLink}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <br>
-                <button onclick="toggleFullScreen()">Full Screen</button>
-            `;
-        }
-
-        // Function to toggle fullscreen mode for iframe
-        function toggleFullScreen() {
-            const iframe = document.getElementById("videoFrame");
-            if (iframe.requestFullscreen) {
-                iframe.requestFullscreen(); // Standard fullscreen
-            } else if (iframe.mozRequestFullScreen) { // Firefox
-                iframe.mozRequestFullScreen();
-            } else if (iframe.webkitRequestFullscreen) { // Chrome, Safari, Opera
-                iframe.webkitRequestFullscreen();
-            } else if (iframe.msRequestFullscreen) { // IE/Edge
-                iframe.msRequestFullscreen();
-            }
-        }
-    </script>
+    <title>YouTube Link Modifier</title>
 </head>
 <body>
-    <div class="container">
-        <h2>Enter YouTube Link</h2>
-        <input type="text" id="userLink" placeholder="Enter your YouTube link">
-        <br>
-        <button onclick="modifyLink()">Submit</button>
+    <h1>YouTube Link Modifier</h1>
+    
+    <label for="youtubeLink">Enter YouTube link:</label>
+    <input type="text" id="youtubeLink" placeholder="Enter YouTube link">
+    
+    <button onclick="modifyLink()">Modify Link</button>
+    <button id="playButton" style="display:none;" onclick="playVideo()">Play Video</button>
+    
+    <p id="modifiedLink"></p>
+    <div id="videoContainer"></div>
 
-        <div id="result"></div>
-    </div>
+    <script>
+        function modifyLink() {
+            let link = document.getElementById('youtubeLink').value;
+            let modifiedLink = link.replace("youtube", "yout-ube");
+            document.getElementById('modifiedLink').innerText = "Modified Link: " + modifiedLink;
+            
+            // Show play button after modifying the link
+            document.getElementById('playButton').style.display = 'inline';
+        }
+
+        function playVideo() {
+            let link = document.getElementById('youtubeLink').value;
+            let videoId = link.split('v=')[1];  // Extract video ID from the link
+            let embedLink = `https://www.youtube.com/embed/${videoId}?autoplay=1&fs=1`; // Enable fullscreen and autoplay
+            
+            let iframe = `<iframe id="youtubeIframe" width="100%" height="100%" src="${embedLink}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            
+            document.getElementById('videoContainer').innerHTML = iframe;
+            
+            // Automatically enter fullscreen mode
+            let iframeElement = document.getElementById("youtubeIframe");
+            iframeElement.requestFullscreen();
+        }
+    </script>
 </body>
 </html>
