@@ -75,21 +75,21 @@
         }
 
         #result {
-            margin-top: 40px;
+            margin-top: 0px;
             font-size: 18px;
         }
 
         /* Play button styling */
         #result button {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 24px;
-            background-color: #00ffff;
-            color: rgb(0, 0, 0);
-            cursor: pointer;
-            font-size: 16px;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 24px;
+    background-color: #005e56;
+    color: rgb(197 197 197);
+    cursor: pointer;
+    font-size: 16px;
+    width: 16%;
         }
-
         #result button:hover {
             background-color: #00ffff5d;
         }
@@ -122,6 +122,16 @@
         font-size: 14px;
 
             }
+            #result button {
+            padding: 12px 30px;
+    border: none;
+    border-radius: 24px;
+    background-color: #005e56;
+    color: rgb(197 197 197);
+    cursor: pointer;
+    font-size: 16px;
+    width: 65%;
+        }
         }
     </style>
     <script>
@@ -136,7 +146,7 @@
 
                 // Show the Play button
                 document.getElementById("result").innerHTML = `
-                    <button onclick="window.open('${modifiedLink}', '_blank')">Play</button>
+                    <button onclick="window.open('${modifiedLink}', '_blank')">Play in full screen</button>
                 `;
             } else {
                 document.getElementById("result").innerHTML = "Invalid URL";
