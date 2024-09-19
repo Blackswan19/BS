@@ -3,181 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BsAdstoper</title>
-    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/gW8Py0B/BS.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald|Noto+Sans">
+    <title>Netflix UI</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Orbitron:wght@400..900&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Strait&display=swap');
+        /* General Styles */
         * {
-            color: rgb(255, 255, 255);
-            font-family: "Red Hat Display", sans-serif;
-        }
-        /* Google-inspired dark theme */
-        body {
-            background-color: #202124;
-            color: #e8eaed;
-            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #141414; /* Dark background */
+            color: white;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+        h1, h2 {
+            font-weight: normal;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: rgba(20, 20, 20, 0.8);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo a {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links li a {
+            font-size: 16px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links li a:hover {
+            color: #e50914; /* Netflix red */
+        }
+
+        .profile a {
+            font-size: 16px;
+            font-weight: bold;
+            border: 1px solid white;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
+        /* Hero Section Styles */
+        .hero {
+            position: relative;
+            height: 90vh;
+            background-image: url('https://source.unsplash.com/1600x900/?movies,cinema');
+            background-size: cover;
+            background-position: center;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            text-align: center;
-        }
-
-        .container {
-    text-align: center;
-    width: 100%;
-    position: fixed;
-        }
-
-        h2 {
-            color: #9aa0a6;
-            font-size: 50px;
-            font-weight: 400;
-            margin-bottom: 40px;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            max-width: 600px;
-            padding: 15px;
-            border-radius: 24px;
-            border: none;
-            background-color: #303134;
-            color: #e8eaed;
-            font-size: 16px;
-            outline: none;
-            text-align: center;
-            box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
-        }
-
-        input[type="text"]::placeholder {
-            color: #9aa0a6;
-        }
-
-        button {
-            margin-top: 30px;
-            padding: 14px 24px;
-            border: none;
-            border-radius: 24px;
-            background-color:#005e56;
             color: white;
+            text-align: center;
+        }
+
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+            z-index: 1;
+        }
+
+        .hero-content {
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .play-btn, .info-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
         }
 
-        button:hover {
-            background-color:  #00ffff5d;
+        .play-btn {
+            background-color: #e50914; /* Netflix red */
+            color: white;
         }
 
-        #result {
-            margin-top: 0px;
-            font-size: 18px;
+        .info-btn {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: white;
         }
 
-        /* Play button styling */
-        #result button {
-    padding: 12px 30px;
-    border: none;
-    border-radius: 24px;
-    background-color:  #004cff;
-    color: rgb(197 197 197);
-    cursor: pointer;
-    font-size: 16px;
-    width: 16%;
+        /* Movie Scrolling Section */
+        .movie-section {
+            padding: 50px;
+            margin-top: -100px;
         }
-        #result button:hover {
-            background-color:#004cff7d;
+
+        .movie-section h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
         }
-        p{
-            position: fixed;
-    bottom: 0px;
-    color: #767676;
-    width: 92%;
-    border-radius: 10px;
-    border: solid 1px #4b4b4b;
-    padding: 13px;
+
+        .movie-row {
+            display: flex;
+            overflow-x: auto;
+            padding-bottom: 20px;
         }
+
+        .movie-row::-webkit-scrollbar {
+            display: none; /* Hide scrollbar */
+        }
+
+        .movie-thumbnail {
+            min-width: 200px;
+            margin-right: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .movie-thumbnail img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .movie-thumbnail:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            input[type="text"] {
-                width: 90%;
+            .navbar {
+                padding: 20px;
             }
 
-            button {
-                width: 35%;
-                max-width: 300px;
+            .nav-links {
+                display: none; /* Hide on smaller screens for simplicity */
             }
-            p{
-                position: fixed;
-        bottom: 0px;
-        color: #767676;
-        width: 86%;
-        border-radius: 10px;
-        border: solid 1px #4b4b4b;
-        padding: 13px;
-        font-size: 14px;
 
+            .hero h1 {
+                font-size: 2.5rem;
             }
-            #result button {
-            padding: 12px 30px;
-    border: none;
-    border-radius: 24px;
-    background-color: #005e56;
-    color: rgb(197 197 197);
-    cursor: pointer;
-    font-size: 16px;
-    width: 65%;
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .play-btn, .info-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            .movie-thumbnail {
+                min-width: 150px;
+            }
         }
-        .container {
-    text-align: center;
-    width: 100%;
-    position: fixed;
-    top: 30%;
-        }
-        h2 {
-            color: #9aa0a6;
-            font-size: 40px;
-        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 0.9rem;
+            }
+
+            .play-btn, .info-btn {
+                padding: 5px 10px;
+                font-size: 0.8rem;
+            }
+
+            .movie-thumbnail {
+                min-width: 120px;
+            }
         }
     </style>
-    <script>
-        function modifyLink() {
-            const userInput = document.getElementById("userLink").value;
-            let modifiedLink = userInput;
-    
-            // Check if the link contains 'youtube' or 'youtu.be'
-            if (userInput.toLowerCase().includes("youtube") || userInput.toLowerCase().includes("youtu.be")) {
-                // Replace 'youtube' with 'yout-ube' and ensure 'youtu.be' links are correctly formatted
-                if (userInput.toLowerCase().includes("youtube")) {
-                    modifiedLink = userInput.replace(/youtube/i, "yout-ube");
-                } else if (userInput.toLowerCase().includes("youtu.be")) {
-                    modifiedLink = userInput.replace(/youtu\.be/i, "yout-ube");
-                }
-    
-                // Show the Play button
-                document.getElementById("result").innerHTML = `
-                    <button onclick="window.open('${modifiedLink}', '_self')">Play in full screen</button>
-                `;
-            } else {
-                document.getElementById("result").innerHTML = "Invalid URL";
-            }
-        }
-    </script>
-    
 </head>
 <body>
-    <div class="container">
-        <h2>BsAdstoper</h2>
-        <input type="text" id="userLink" placeholder="Paste the Youtube link here...">
-        <br>
-        <button onclick="modifyLink()">Submit</button>
-        <div id="result"></div>
-        
-    </div>
-    <p>You can create a playlist of your favorite songs, movies, or any other videos on YouTube and then share the link here. We will play them without any interruptions from ads.</p>
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="#">My App</a>
+            </div>
+            <div class="profile">
+                <a href="#">Profile</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Featured Show Title</h1>
+            <p>Watch now, new episodes available</p>
+            <button class="play-btn">Play</button>
+            <button class="info-btn">More Info</button>
+        </div>
+    </section>
+
+    <!-- Movie Scrolling Section -->
+    <section class="movie-section">
+        <h2>Popular on Netflix</h2>
+        <div class="movie-row">
+            <div class="movie-thumbnail"><img src="https://via.placeholder.com/200x300" alt="Movie 1"></div>
+            <div class="movie-thumbnail"><img src="https://via.placeholder.com/200x300" alt="Movie 2"></div>
+            <div class="movie-thumbnail"><img src="https://via.placeholder.com/200x300" alt="Movie 3"></div>
+            <div class="movie-thumbnail"><img src="https://via.placeholder.com/200x300" alt="Movie 4"></div>
+            <div class="movie-thumbnail"><img src="https://via.placeholder.com/200x300" alt="Movie 5"></div>
+            <div class="movie-thumbnail"><img src="https://via.placeholder.com/200x300" alt="Movie 6"></div>
+        </div>
+    </section>
 </body>
 </html>
