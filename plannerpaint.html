@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Drawing App with Movable Text</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        canvas {
+            border: 1px solid #000;
+            background-color: #fff;
+            cursor: crosshair;
+        }
+
+        .controls {
+            margin-bottom: 10px;
+        }
+
+        button {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Enhanced Drawing App with Movable Text</h1>
+    <div class="controls">
+        <input type="color" id="colorPicker" value="#000000">
+        <input type="range" id="brushSize" min="1" max="50" value="5">
+        <input type="text" id="textInput" placeholder="Enter text" />
+        <input type="number" id="textSize" min="10" max="100" value="20">
+        <button id="addTextButton">Add Text</button>
+        <button id="undoButton">Undo</button>
+        <button id="redoButton">Redo</button>
+        <button id="downloadButton">Download</button>
+        <select id="shapeSelector">
+            <option value="free">Free Draw</option>
+            <option value="circle">Circle</option>
+            <option value="square">Square</option>
+            <option value="star">Star</option>
+        </select>
+        <button id="startDrawingButton">Start Drawing</button>
+    </div>
+    <canvas id="drawingCanvas" width="800" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+        const colorPicker = document.getElementById('colorPicker');
+        const brushSize = document.getElementById('brushSize');
+        const textInput = document.getElementById('textInput');
+        const textSize = document.getElementById('textSize');
+        const addTextButton = document.getElementById('addTextButton');
+        const undoButton = document.getElementById('undoButton');
+        const redoButton = document.getElementById('redoButton');
+        const downloadButton = document.getElementById('downloadButton');
+        const shapeSelector = document.getElementById('shapeSelector');
+        const moveTextButton = document.getElementById('moveTextButton');
+        const startDrawingButton = document.getElementById('startDrawingButton');
+
+        let isDrawingEnabled = false;
+        let isDrawing = false;
+        let strokes = [];
+        let textItems = [];
+        let redoStack = [];
+        let currentStroke = [];
+        let movingTextIndex = null;
+        let isMovingText = false;
+
+        function toggleDrawing() {
+            isDrawingEnabled = !isDrawingEnabled;
+            startDrawingButton.innerText = isDrawingEnabled ? 'Stop Drawing' : 'Start Drawing';
+        }
+
+        function startDrawing(event) {
+            if (isDrawingEnabled && !isMovingText) {
+                isDrawing = true;
+                ctx.beginPath();
+                currentStroke.push({ x: event.offsetX, y: event.offsetY, color: colorPicker.value });
+            }
+        }
+
+        function draw(event) {
+            if (!isDrawing || !isDrawingEnabled || isMovingText) return;
+            if (shapeSelector.value === 'free') {
+                ctx.lineTo(event.offsetX, event.offsetY);
+                ctx.strokeStyle = colorPicker.value;
+                ctx.lineWidth = brushSize.value;
+                ctx.stroke();
+                currentStroke.push({ x: event.offsetX, y: event.offsetY, color: colorPicker.value });
+            }
+        }
+
+        function stopDrawing() {
+            if (!isDrawing) return;
+            isDrawing = false;
+            ctx.closePath();
+            if (currentStroke.length > 0) {
+                strokes.push(currentStroke);
+                redoStack = [];
+                currentStroke = [];
+            }
+        }
+
+        function drawShape(shape, x, y) {
+            ctx.fillStyle = colorPicker.value;
+            ctx.strokeStyle = colorPicker.value;
+            ctx.lineWidth = brushSize.value;
+
+            switch (shape) {
+                case 'circle':
+                    ctx.beginPath();
+                    ctx.arc(x, y, brushSize.value, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+                    break;
+                case 'square':
+                    ctx.fillRect(x - brushSize.value, y - brushSize.value, brushSize.value * 2, brushSize.value * 2);
+                    break;
+                case 'star':
+                    ctx.beginPath();
+                    const spikes = 5;
+                    const outerRadius = brushSize.value;
+                    const innerRadius = brushSize.value / 2;
+                    const rot = (Math.PI / 2) * 3;
+                    ctx.translate(x, y);
+                    ctx.beginPath();
+                    for (let i = 0; i < spikes; i++) {
+                        ctx.lineTo(0, outerRadius);
+                        ctx.rotate(rot);
+                        ctx.lineTo(0, innerRadius);
+                        ctx.rotate(rot);
+                    }
+                    ctx.translate(-x, -y);
+                    ctx.fill();
+                    ctx.stroke();
+                    break;
+            }
+        }
+
+        function addText() {
+            const text = textInput.value;
+            const size = textSize.value;
+
+            if (text) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+
+                textItems.push({ text, x, y, size, color: colorPicker.value });
+                redraw();
+                textInput.value = '';
+            }
+        }
+
+        function startMovingText(event) {
+            const mouseX = event.offsetX;
+            const mouseY = event.offsetY;
+
+            textItems.forEach((item, index) => {
+                ctx.font = `${item.size}px Arial`;
+                const metrics = ctx.measureText(item.text);
+                const textWidth = metrics.width;
+                const textHeight = parseInt(item.size, 10);
+
+                if (mouseX >= item.x && mouseX <= item.x + textWidth && mouseY >= item.y - textHeight && mouseY <= item.y) {
+                    movingTextIndex = index;
+                }
+            });
+        }
+
+        function moveText(event) {
+            if (movingTextIndex !== null) {
+                const item = textItems[movingTextIndex];
+                item.x = event.offsetX;
+                item.y = event.offsetY;
+                redraw();
+            }
+        }
+
+        function stopMovingText() {
+            movingTextIndex = null;
+        }
+
+        function undo() {
+            if (strokes.length > 0) {
+                const lastStroke = strokes.pop();
+                redoStack.push(lastStroke);
+                redraw();
+            } else if (textItems.length > 0) {
+                textItems.pop();
+                redraw();
+            }
+        }
+
+        function redo() {
+            if (redoStack.length > 0) {
+                const lastRedoStroke = redoStack.pop();
+                strokes.push(lastRedoStroke);
+                redraw();
+            }
+        }
+
+        function redraw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            strokes.forEach(stroke => {
+                ctx.beginPath();
+                ctx.moveTo(stroke[0].x, stroke[0].y);
+                ctx.strokeStyle = stroke[0].color;
+                stroke.forEach(point => {
+                    ctx.lineTo(point.x, point.y);
+                });
+                ctx.stroke();
+            });
+
+            textItems.forEach(item => {
+                ctx.fillStyle = item.color;
+                ctx.font = `${item.size}px Arial`;
+                ctx.fillText(item.text, item.x, item.y);
+            });
+        }
+
+        function downloadCanvas() {
+            const tempCanvas = document.createElement('canvas');
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCanvas.width = canvas.width;
+            tempCanvas.height = canvas.height;
+
+            tempCtx.fillStyle = '#fff';
+            tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+            strokes.forEach(stroke => {
+                tempCtx.beginPath();
+                tempCtx.moveTo(stroke[0].x, stroke[0].y);
+                tempCtx.strokeStyle = stroke[0].color;
+                stroke.forEach(point => {
+                    tempCtx.lineTo(point.x, point.y);
+                });
+                tempCtx.stroke();
+            });
+
+            textItems.forEach(item => {
+                tempCtx.fillStyle = item.color;
+                tempCtx.font = `${item.size}px Arial`;
+                tempCtx.fillText(item.text, item.x, item.y);
+            });
+
+            const link = document.createElement('a');
+            link.download = 'my_drawing.png';
+            link.href = tempCanvas.toDataURL('image/png');
+            link.click();
+        }
+
+        function toggleMoveText() {
+            isMovingText = !isMovingText;
+            moveTextButton.innerText = isMovingText ? 'Stop Moving Text' : 'Move Text';
+            if (isMovingText) {
+                movingTextIndex = null; // Reset moving index
+            }
+        }
+
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseleave', stopDrawing);
+        canvas.addEventListener('mousedown', startMovingText);
+        canvas.addEventListener('mousemove', moveText);
+        canvas.addEventListener('mouseup', stopMovingText);
+        addTextButton.addEventListener('click', addText);
+        undoButton.addEventListener('click', undo);
+        redoButton.addEventListener('click', redo);
+        downloadButton.addEventListener('click', downloadCanvas);
+        moveTextButton.addEventListener('click', toggleMoveText);
+        startDrawingButton.addEventListener('click', toggleDrawing);
+        shapeSelector.addEventListener('change', function() {
+            if (this.value !== 'free') {
+                canvas.addEventListener('click', (event) => {
+                    drawShape(this.value, event.offsetX, event.offsetY);
+                });
+            } else {
+                canvas.removeEventListener('click', drawShape);
+            }
+        });
+    </script>
+</body>
+</html>
