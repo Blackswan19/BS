@@ -146,6 +146,20 @@ p {
   }
 }
 @media (max-width: 480px) {
+        /* Adjust modal size on small screens */
+        .modal-content {
+            width: 100%; /* Make it full width on mobile */
+            max-width: none; /* Remove max width restriction */
+            height: 100vh; /* Make it cover most of the viewport height */
+        }
+
+        .close {
+            font-size: 35px; /* Reduce close button size on mobile */
+            top: 5px;
+            right: 10px;
+        }
+    
+  
   .contents {
     top: 15%;
     position: relative;
@@ -222,6 +236,45 @@ span{
     left: 0%;
     line-height: 48px;
 }
+#pdfViewer {
+            display: none;
+            margin-top: 20px;
+        }
+        iframe {
+            width: 100%;
+            height: 1000px;
+            border: none;
+        }
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            /* height: 100%;  */
+            overflow: auto; 
+            background-color: rgba(0, 0, 0, 0.8); 
+            padding-top: 10px; 
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 900px;
+        }
+        .close {
+          position: FIXED;
+    top: 10em;
+    color: white;
+    font-size: 41px;
+    cursor: pointer;
+    font-weight: 100;
+    left: 31em;
+    background: #4f5757;
+    padding: 0px 15px;
+    border-radius: 10px;
+        }
     </style>
   </head>
   <body>
@@ -235,7 +288,7 @@ span{
         <hr>
         <span>BOOKS</span>
         <li><a href="story.html">Story books</a></li>
-        <li><a href="">Learning books</a></li>
+        <li><a href="learn.html">Learning books</a></li>
         <li><a href="">More</a></li>
         <hr>
         <span>MORE OF US</span>
@@ -245,7 +298,40 @@ span{
     <style>
     </style>
     <div class="contents">
-      <a href="file:///C:/Users/ram/Downloads/the-story-of-doctor-dolittle.pdf"><img src="https://freeditorial.com/system/book/cover_free/000/030/681/30681/thumb_cover_30681.jpg" alt=""></a>
-    </div>
+      <a href="#" onclick="openPDF('storypdf/the-story-of-doctor-dolittle.pdf'); return false;">
+          <img src="https://freeditorial.com/system/book/cover_free/000/030/681/30681/thumb_cover_30681.jpg" alt="Doctor Dolittle">
+      </a>
+      <a href="#" onclick="openPDF('storypdf/another-book.pdf'); return false;">
+          <img src="https://example.com/path/to/another-book-cover.jpg" alt="Another Book">
+      </a>
+      <a href="#" onclick="openPDF('storypdf/yet-another-book.pdf'); return false;">
+          <img src="https://example.com/path/to/yet-another-book-cover.jpg" alt="Yet Another Book">
+      </a>
+  </div>
+
+  <div id="pdfModal" class="modal">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <iframe id="pdfFrame" class="modal-content" src=""></iframe>
+  </div>
+
+  <script>
+    function openPDF(pdfUrl) {
+        document.getElementById('pdfFrame').src = pdfUrl;
+        document.getElementById('pdfModal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('pdfModal').style.display = 'none';
+        document.getElementById('pdfFrame').src = ''; // Clear the iframe source
+    }
+
+    // Close the modal when clicking anywhere outside of it
+    window.onclick = function(event) {
+        const modal = document.getElementById('pdfModal');
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
+</script>
   </body>
 </html>
