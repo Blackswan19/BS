@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald|Noto+Sans">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Orbitron:wght@400..900&family=Red+Hat+Display:ital,wght@0,300..900&family=Strait&display=swap');
-        
+
         * {
             font-family: "Red Hat Display", sans-serif;
         }
@@ -17,11 +17,13 @@
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            height: 125vh; 
+            height: 100vh; /* Full height of the viewport */
             margin: 0; 
             text-align: center;
             letter-spacing: 1px;
+            flex-direction: column; /* Stack items vertically */
         }
+
         /* Dark Theme */
         @media (prefers-color-scheme: dark) {
             body {
@@ -46,9 +48,8 @@
             list-style-type: none; 
             padding: 0; 
             margin: 0; 
-            position: fixed;
         }
-        
+
         li {
             margin: 21px 0px;
             width: 248px;
@@ -67,23 +68,47 @@
             transform: scale(1.05); 
         }
 
-        .p img {
-            width: 12%;
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            border: solid 2px gray;
-            border-radius: 8px;
+        .coin {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: white; /* Default to white */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 36px; /* Increased font size for clarity */
+            font-weight: bold;
+            margin: 20px auto; /* Centering the coin */
+            transition: transform 1s; /* Smooth spinning */
+        }
+
+        .coin.spin {
+            transform: rotateY(720deg); /* Spins the coin */
+        }
+
+        #spinBtn {
+            padding: 10px 20px;
+            background-color: #004cff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px; /* Space between the coin and the button */
+        }
+
+        #spinBtn:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
         }
 
         @media (max-width: 600px) {
-            img {
-                position: fixed;
-        width: 46%;
-        bottom: 66%;
-        z-index: -1;
-        border-radius: 145px;
-            }
             a {
                 font-size: 18px; 
                 padding: 12px 24px; 
@@ -92,14 +117,14 @@
 
         #passwordContainer {
             display: none;
-    text-align: center;
-    margin-top: 50px;
-    z-index: 1;
-    background: black;
-    padding: 132px;
-    position: fixed;
-    height: 100%;
-    width: 100%;
+            text-align: center;
+            margin-top: 50px;
+            z-index: 1;
+            background: black;
+            padding: 132px;
+            position: fixed;
+            height: 100%;
+            width: 100%;
         }
 
         #userPassword {
@@ -119,7 +144,7 @@
 
         #submitBtn {
             padding: 10px 20px;
-            background-color: #007bff;
+            background-color: #004cff;
             color: white;
             border: none;
             border-radius: 5px;
@@ -141,10 +166,7 @@
     </style>
 </head>
 <body>
-    
-
     <!-- Services List -->
-    <img src="https://images.unsplash.com/photo-1704910059653-041d5a17717e?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
     <ul>
         <p>Welcome Swan</p><br><br>
         <li><a href="https://phaniyarra.github.io/prototype-pkchs/psvkry.html">Pkchs</a></li>
@@ -152,5 +174,41 @@
         <li><a href="https://ramakrishna0212.github.io/blackswanfashion/main.html">Style</a></li><br><br><br>
         <a href="https://blackswan19.github.io/bscrop/formbs.html" style="font-size: 11px; text-align: center; background: #282828; border: solid 1px #313131;">Open reminder</a>
     </ul>
+
+    <!-- Coin and Spin Button -->
+    <div class="coin" id="coin"></div> <!-- Default to white (heads) -->
+    <button id="spinBtn">Spin the Coin</button>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('spinBtn').addEventListener('click', function() {
+            const coin = document.getElementById('coin');
+            const result = document.getElementById('result');
+
+            // Add spinning class
+            coin.classList.add('spin');
+
+            // Wait for the spin animation to finish
+            setTimeout(() => {
+                // Randomly choose between heads (white) and tails (black)
+                const isHeads = Math.random() < 0.5; // Random boolean value
+                coin.classList.remove('spin'); // Remove spinning effect
+
+                // Update the coin's face and result
+                if (isHeads) {
+                    result.textContent = 'You may do'; // Update result
+                    // coin.textContent = '○'; // Change coin face to white
+                    coin.style.backgroundColor = 'white'; // Set background to white
+                    coin.style.color = 'black'; // Text color for contrast
+                } else {
+                    result.textContent = 'Don\'t do'; // Update result
+                    // coin.textContent = '●'; // Change coin face to black
+                    coin.style.backgroundColor = 'black'; // Set background to black
+                    coin.style.color = 'white'; // Change text color to white for contrast
+                }
+
+            }, 1000); // Adjust timeout to match the animation duration
+        });
+    </script>
 </body>
 </html>
