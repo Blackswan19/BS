@@ -173,14 +173,15 @@
         <li><a href="https://phaniyarra.github.io/prototype-pkchs/psvkry.html">Pkchs</a></li>
         <li><a href="https://blackswan19.github.io/bscrop/guardian/main.html">Finance</a></li>
         <li><a href="https://ramakrishna0212.github.io/blackswanfashion/main.html">Style</a></li>
+        <li><a href="https://blackswan19.github.io/bscrop/reminder.html">Reminder</a></li>
         <li><a href="https://blackswan19.github.io/Educate/savenotes.html">Note</a></li><br><br><br>
-        <a href="https://blackswan19.github.io/bscrop/formbs.html" style="font-size: 11px; text-align: center; background: #282828; border: solid 1px #313131;">Open reminder</a>
+        <a href="https://blackswan19.github.io/bscrop/formbs.html" style="font-size: 11px; text-align: center; background: #282828; border: solid 1px #313131;">RORA</a>
     </ul>
 
-    <!-- Coin and Spin Button -->
-    <div class="coin" id="coin"></div> <!-- Default to white (heads) -->
+    <!-- Coin and Spin Button
+    <div class="coin" id="coin"></div> 
     <button id="spinBtn">Spin the Coin</button>
-    <div id="result"></div>
+    <div id="result"></div> -->
 
     <script>
         document.getElementById('spinBtn').addEventListener('click', function() {
@@ -199,17 +200,17 @@
                 // Update the coin's face and result
                 if (isHeads) {
                     result.textContent = 'You may do'; // Update result
-                    // coin.textContent = '○'; // Change coin face to white
+                    
                     coin.style.backgroundColor = 'white'; // Set background to white
                     coin.style.color = 'black'; // Text color for contrast
                 } else {
                     result.textContent = 'Don\'t do'; // Update result
-                    // coin.textContent = '●'; // Change coin face to black
-                    coin.style.backgroundColor = 'black'; // Set background to black
-                    coin.style.color = 'white'; // Change text color to white for contrast
+                   
+                    coin.style.backgroundColor = 'black';
+                    coin.style.color = 'white';
                 }
 
-            }, 1000); // Adjust timeout to match the animation duration
+            }, 1000);
         });
     </script>
 </body>
