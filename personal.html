@@ -172,10 +172,10 @@
         <p>Welcome Swan</p><br><br>
         <li><a href="https://phaniyarra.github.io/prototype-pkchs/psvkry.html">Pkchs</a></li>
         <li><a href="https://blackswan19.github.io/bscrop/guardian/main.html">Finance</a></li>
-        <li><a href="https://ramakrishna0212.github.io/blackswanfashion/main.html">Style</a></li>
-        <li><a href="https://blackswan19.github.io/bscrop/reminder.html">Reminder</a></li>
-        <li><a href="https://blackswan19.github.io/Educate/bsttm">Amount reminder</a></li>
-        <li><a href="https://blackswan19.github.io/Educate/savenotes.html">Note</a></li><br><br><br>
+        <li><a href="https://blackswan19.github.io/bsmy/interest">Interest</a></li>
+        <li><a href="https://blackswan19.github.io/Educate/savenotes.html">Note</a></li>
+        <li><a href="https://blackswan19.github.io/Educate/bsttm">Ttm</a></li>
+        <li><a href="https://ramakrishna0212.github.io/blackswanfashion/main.html">Style</a></li><br><br><br>
         <a href="https://blackswan19.github.io/bscrop/formbs.html" style="font-size: 11px; text-align: center; background: #282828; border: solid 1px #313131;">RORA</a>
     </ul>
 
@@ -183,3 +183,36 @@
     <div class="coin" id="coin"></div> 
     <button id="spinBtn">Spin the Coin</button>
     <div id="result"></div> -->
+
+    <script>
+        document.getElementById('spinBtn').addEventListener('click', function() {
+            const coin = document.getElementById('coin');
+            const result = document.getElementById('result');
+
+            // Add spinning class
+            coin.classList.add('spin');
+
+            // Wait for the spin animation to finish
+            setTimeout(() => {
+                // Randomly choose between heads (white) and tails (black)
+                const isHeads = Math.random() < 0.5; // Random boolean value
+                coin.classList.remove('spin'); // Remove spinning effect
+
+                // Update the coin's face and result
+                if (isHeads) {
+                    result.textContent = 'You may do'; // Update result
+                    
+                    coin.style.backgroundColor = 'white'; // Set background to white
+                    coin.style.color = 'black'; // Text color for contrast
+                } else {
+                    result.textContent = 'Don\'t do'; // Update result
+                   
+                    coin.style.backgroundColor = 'black';
+                    coin.style.color = 'white';
+                }
+
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
