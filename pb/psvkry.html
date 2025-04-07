@@ -3,7 +3,7 @@
 <head>
     <title>Bomboclat</title>
     <link rel="icon" type="image/x-icon" href="https://m.media-amazon.com/images/I/61UIo8pdRVL.jpg">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
 @import url('https://fonts.googleapis.com/css2?family=Anta&family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Audiowide&family=Braah+One&family=Cardo:ital,wght@0,400;0,700;1,400&family=Carter+One&family=Cherry+Cream+Soda&family=Comfortaa:wght@300..700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Didact+Gothic&family=Dongle&family=Dosis:wght@200..800&family=DotGothic16&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Fugaz+One&family=Galindo&family=Goldman:wght@400;700&family=Gruppo&family=Handjet:wght@100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Lexend:wght@100..900&family=Mandali&family=Michroma&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Oxanium:wght@200..800&family=Pixelify+Sans:wght@400..700&family=Poiret+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Red+Hat+Mono:ital,wght@0,300..700;1,300..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Russo+One&family=Sarpanch:wght@400;500;600;700;800;900&family=Share+Tech&family=Space+Grotesk:wght@300..700&family=Stalinist+One&family=VT323&family=Zen+Dots&display=swap');
 </style><style>
@@ -14,7 +14,7 @@
         }
 
         body {
-            background: #000080; /* Dark blue background */
+            background: #0000f8; /* Dark blue background */
             color: #00FF00; /* Green text */
             min-height: 100vh;
             display: flex;
@@ -133,119 +133,130 @@
             margin: 20px auto;
             display: inline-block;
         }
-        /* Mobile styles */
-@media only screen and (max-width: 768px) {
+  /* Tablet and below */
+@media (max-width: 768px) {
     body {
-        padding: 10px; /* Reduce padding for smaller screens */
-        justify-content: flex-start; /* Stack content from top */
-        min-height: auto; /* Allow natural height */
+        padding: 10px !important;
+        justify-content: flex-start !important;
+        min-height: auto !important;
     }
 
     hr {
-        width: 90%; /* Wider on mobile */
-        margin: 15px auto; /* Less margin */
-        border-width: 2px; /* Thinner dashed line */
+        width: 90% !important;
+        margin: 15px auto !important;
+        border-width: 2px !important;
     }
 
     p, h3, p1 {
-        font-size: 14px; /* Smaller base font size */
-        margin: 8px 0; /* Reduced spacing */
+        font-size: 14px !important;
+        margin: 8px 0 !important;
     }
 
     p[style*="font-size: 265px"] {
-        font-size: clamp(20px, 8vw, 36px); /* Smaller large text */
-        text-shadow: 2px 2px #00FF00; /* Slightly smaller shadow */
+        font-size: clamp(20px, 8vw, 36px) !important;
+        text-shadow: 2px 2px #00FF00 !important;
     }
 
     p1[style*="font-size: 90px"] {
-        font-size: clamp(18px, 4vw, 24px); /* Adjusted for mobile */
-        padding: 10px; /* Less padding */
+        font-size: clamp(18px, 4vw, 24px) !important;
+        padding: 10px !important;
     }
 
     p1[style*="font-size: 35px"] {
-        font-size: clamp(14px, 2.5vw, 18px); /* Smaller text */
-        padding: 8px; /* Less padding */
+        font-size: clamp(14px, 2.5vw, 18px) !important;
+        padding: 8px !important;
     }
 
     video {
-        width: 100%; /* Full width on mobile */
-        max-width: 100%; /* Override inline max-width */
-        padding: 10px; /* Reduced padding */
-        box-shadow: 3px 3px 0px #00FF00; /* Smaller shadow */
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 10px !important;
+        box-shadow: 3px 3px 0px #00FF00 !important;
     }
 
     video.playing {
-        width: 100%; /* Keep full width when playing */
+        width: 100% !important;
     }
 
     iframe {
-        width: 100%; /* Full width */
-        height: 200px; /* Reduced height */
-        max-width: 100%; /* Override fixed width */
-        padding: 10px; /* Less padding */
-        box-shadow: -3px -3px 0px #8B4513; /* Smaller shadow */
+        width: 100% !important;
+        height: 200px !important;
+        max-width: 100% !important;
+        padding: 10px !important;
+        box-shadow: -3px -3px 0px #8B4513 !important;
     }
 
     a img {
-        width: 100%; /* Full width image */
-        max-width: 100%; /* Override inline max-width */
-        margin: 15px auto; /* Reduced margin */
-        border-width: 3px; /* Thinner border */
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 15px auto !important;
+        border-width: 3px !important;
     }
 
     p[style*="position: fixed"] {
-        font-size: 14px; /* Smaller fixed header */
-        padding: 10px; /* Less padding */
-        width: 90%; /* Wider to fit content */
-        transform: translateX(-50%);
-        text-shadow: 1px 1px #000080; /* Consistent shadow */
+        font-size: 14px !important;
+        padding: 10px !important;
+        width: 90% !important;
+        transform: translateX(-50%) !important;
+        text-shadow: 1px 1px #000080 !important;
     }
 
     .counter {
-        font-size: 16px; /* Slightly smaller */
-        padding: 5px 10px; /* Adjusted padding */
+        font-size: 16px !important;
+        padding: 5px 10px !important;
     }
 
     .blink {
-        animation-duration: 1.5s; /* Slower blink for readability */
+        animation-duration: 1.5s !important;
     }
 }
 
-/* Extra small screens (below 480px) */
-@media only screen and (max-width: 480px) {
+/* Extra small screens */
+@media (max-width: 480px) {
     p, h3, p1 {
-        font-size: 12px; /* Even smaller base font */
+        font-size: 12px !important;
     }
 
     p[style*="font-size: 265px"] {
-        font-size: clamp(18px, 6vw, 30px); /* Further reduced */
+        font-size: clamp(18px, 6vw, 30px) !important;
     }
 
     p1[style*="font-size: 90px"] {
-        font-size: clamp(16px, 3.5vw, 20px);
+        font-size: clamp(16px, 3.5vw, 20px) !important;
     }
 
     p1[style*="font-size: 35px"] {
-        font-size: clamp(12px, 2vw, 16px);
+        font-size: clamp(12px, 2vw, 16px) !important;
     }
 
     iframe {
-        height: 180px; /* Shorter iframe */
+        height: 180px !important;
     }
 
     p[style*="position: fixed"] {
-        font-size: 12px; /* Smaller header */
-        padding: 8px;
+        font-size: 12px !important;
+        padding: 8px !important;
     }
-
+    video {
+        width: 90% !important;
+        max-width: 100% !important;
+        padding: 10px !important;
+        box-shadow: 3px 3px 0px #00FF00 !important;
+    }
     .counter {
-        font-size: 14px;
+        font-size: 14px !important;
     }
 }
     </style>
 </head>
 <body>
-    <p style="position: fixed; top: 0px;color: #ffffff; border: solid; font-size: 16px; padding: 20px;">P | Bomboclat | BsWorld</p>
+    <p style="position: fixed;
+    top: 0px;
+    color: #ffffff;
+    border: none;
+    font-size: 16px;
+    background: #0000f8;
+    padding: 20px;">P | Bomboclat | BsWorld</p>
     <p class="blink">Wasn't very nice</p>
     <video style="max-width: 400px;" controls src="world5.mp4"></video>
     <p>MY OWN PERSPECTIVE</p>
