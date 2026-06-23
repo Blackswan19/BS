@@ -1,401 +1,169 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Bomboclat</title>
-    <link rel="icon" type="image/x-icon" href="https://m.media-amazon.com/images/I/61UIo8pdRVL.jpg">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-@import url('https://fonts.googleapis.com/css2?family=Anta&family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Audiowide&family=Braah+One&family=Cardo:ital,wght@0,400;0,700;1,400&family=Carter+One&family=Cherry+Cream+Soda&family=Comfortaa:wght@300..700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Didact+Gothic&family=Dongle&family=Dosis:wght@200..800&family=DotGothic16&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Fugaz+One&family=Galindo&family=Goldman:wght@400;700&family=Gruppo&family=Handjet:wght@100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Lexend:wght@100..900&family=Mandali&family=Michroma&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Oxanium:wght@200..800&family=Pixelify+Sans:wght@400..700&family=Poiret+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Red+Hat+Mono:ital,wght@0,300..700;1,300..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Russo+One&family=Sarpanch:wght@400;500;600;700;800;900&family=Share+Tech&family=Space+Grotesk:wght@300..700&family=Stalinist+One&family=VT323&family=Zen+Dots&display=swap');
-</style><style>
+    <title>BsWorld</title>
+    <style>
         * {
-            font-family: "EB Garamond", serif;
-            margin: 0;
-            padding: 0;
+            scrollbar-width: none;
         }
-
         body {
-            background: #0000f8; /* Dark blue background */
-            color: #00FF00; /* Green text */
-            min-height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
-            transition: background-color 0.3s;
+            height: 100vh;
+            background-color: rgb(0, 67, 0);
+            flex-direction: column;
+            color: white;
+            font-family: system-ui, -apple-system, sans-serif;
         }
-
-        hr {
-            border: 3px dashed #8B4513; /* Brown dashed line */
-            width: 80%;
-            max-width: 600px;
-            margin: 20px auto;
+        img {
+                width: 100%;
+    max-width: 300px;
         }
-
-        p, h3, p1 {
-            font-size: 16px;
-            color: #00FF00; /* Green */
-            text-transform: uppercase;
+        .music-container {
+display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 5px;
+    border-radius: 5px;
+    flex-direction: column;
+    position: fixed;
+    bottom: 20px;
+        }
+        .song-info {
             text-align: center;
-            margin: 10px 0;
-            transition: color 0.3s;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+        }
+        .song-title {
+               font-size: 15px;
+        }
+        .song-artist {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        .controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        button {
+            background-color: #004300;
+    color: white;
+    border: none;
+    width: 55px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
         }
 
-        @keyframes blink {
-            50% { opacity: 0; }
+        .progress-container {
+            width: 250px;
+            height: 6px;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
         }
-        .blink {
-            animation: blink 1s step-end infinite;
-            color: #8B4513; /* Brown */
+        .progress-bar {
+            height: 100%;
+            background: #004300;
+            width: 0%;
+            transition: width 0.1s linear;
         }
-
-        p[style*="font-size: 265px"] {
-            font-size: clamp(24px, 10vw, 48px);
-            color: #8B4513; /* Brown */
-            text-shadow: 3px 3px #00FF00; /* Green shadow */
+        .time {
+           display: flex;
+    justify-content: space-between;
+    width: 250px;
+    align-items: center;
+    gap: 10px;
         }
-
-        p1[style*="font-size: 90px"] {
-            font-size: clamp(20px, 5vw, 32px);
-            color: #00FF00; /* Green */
-            border: 3px double #8B4513; /* Brown border */
-            padding: 15px;
-            background: #000080; /* Dark blue */
-        }
-
-        p1[style*="font-size: 35px"] {
-            font-size: clamp(16px, 3vw, 20px);
-            color: #8B4513; /* Brown */
-            border: 3px dotted #00FF00; /* Green border */
-            padding: 10px;
-            background: #000080; /* Dark blue */
-        }
-
-        video {
-            border: 5px double #8B4513; /* Brown border */
-            padding: 15px;
-            background-color: #000080; /* Dark blue */
-            max-width: 90vw;
-            width: 320px; /* Default size */
-            margin: 20px auto;
-            display: block;
-            box-shadow: 5px 5px 0px #00FF00; /* Green shadow */
-            transition: width 0.5s ease; /* Smooth size transition */
-        }
-
-        video.playing {
-            width: 880px;
-        }
-
-        iframe {
-            border: 5px solid #00FF00; /* Green border */
-            padding: 15px;
-            background-color: #000080; /* Dark blue */
-            width: 480px;
-            height: 360px;
-            max-width: 90vw;
-            margin: 20px auto;
-            display: block;
-            box-shadow: -5px -5px 0px #8B4513; /* Brown shadow */
-        }
-
-        a img {
-            border: 5px outset #8B4513; /* Brown border */
-            max-width: 90vw;
-            margin: 20px auto;
-            display: block;
-            filter: brightness(120%) contrast(150%);
-        }
-
-        p[style*="position: fixed"] {
-            font-size: 20px;
-            color: #8B4513; /* Brown */
-            background-color: #000080; /* Dark blue */
-            border: 3px solid #00FF00; /* Green border */
-            padding: 10px;
-            position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: auto;
-            text-align: center;
-            z-index: 1000;
-            text-shadow: 1px 1px #000080; /* Dark blue shadow */
-        }
-
-        .counter {
-            font-size: 18px;
-            color: #00FF00; /* Green */
-            background: #000080; /* Dark blue */
-            border: 2px solid #8B4513; /* Brown */
-            padding: 5px 15px;
-            margin: 20px auto;
-            display: inline-block;
-        }
-  /* Tablet and below */
-@media (max-width: 768px) {
-    body {
-        
-        justify-content: flex-start !important;
-        min-height: auto !important;
-    }
-
-    hr {
-        width: 90% !important;
-        margin: 15px auto !important;
-        border-width: 2px !important;
-    }
-
-    p, h3, p1 {
-        font-size: 14px !important;
-        margin: 8px 0 !important;
-    }
-
-    p[style*="font-size: 265px"] {
-        font-size: clamp(20px, 8vw, 36px) !important;
-        text-shadow: 2px 2px #00FF00 !important;
-    }
-
-    p1[style*="font-size: 90px"] {
-        font-size: clamp(18px, 4vw, 24px) !important;
-        padding: 10px !important;
-    }
-
-    p1[style*="font-size: 35px"] {
-        font-size: clamp(14px, 2.5vw, 18px) !important;
-        padding: 8px !important;
-    }
-
-    video {
-        width: 100% !important;
-        max-width: 100% !important;
-        padding: 10px !important;
-        box-shadow: 3px 3px 0px #00FF00 !important;
-    }
-
-    video.playing {
-        width: 100% !important;
-    }
-
-    iframe {
-       
-        max-width: 90% !important;
-        padding: 10px !important;
-        box-shadow: -3px -3px 0px #8B4513 !important;
-    }
-
-    a img {
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: 15px auto !important;
-        border-width: 3px !important;
-    }
-
-    p[style*="position: fixed"] {
-        font-size: 14px !important;
-        padding: 10px !important;
-        width: 90% !important;
-        transform: translateX(-50%) !important;
-        text-shadow: 1px 1px #000080 !important;
-    }
-
-    .counter {
-        font-size: 16px !important;
-        padding: 5px 10px !important;
-    }
-
-    .blink {
-        animation-duration: 1.5s !important;
-    }
-}
-
-/* Extra small screens */
-@media (max-width: 480px) {
-    p, h3, p1 {
-        font-size: 12px !important;
-    }
-
-    p[style*="font-size: 265px"] {
-        font-size: clamp(18px, 6vw, 30px) !important;
-    }
-
-    p1[style*="font-size: 90px"] {
-        font-size: clamp(16px, 3.5vw, 20px) !important;
-    }
-
-    p1[style*="font-size: 35px"] {
-        font-size: clamp(12px, 2vw, 16px) !important;
-    }
-
-    iframe {
-        height: 180px !important;
-    }
-
-    p[style*="position: fixed"] {
-        font-size: 12px !important;
-        padding: 8px !important;
-    }
-    video {
-        width: 90% !important;
-        max-width: 100% !important;
-        padding: 10px !important;
-        box-shadow: 3px 3px 0px #00FF00 !important;
-    }
-    .counter {
-        font-size: 14px !important;
-    }
-}
     </style>
 </head>
 <body>
-    <p style="position: fixed;
-    top: 0px;
-    color: #ffffff;
-    border: none;
-    font-size: 16px;
-    background: #0000f8;
-    padding: 20px;">P | Bomboclat | BsWorld</p>
-<p>----------</p>
-<p>----------</p>
-<p>Perspective</p>
-<video style="max-width: 400px;" controls src="world.mp4"></video>
-   
-    <p>Wasn't very nice</p>
-    <video style="max-width: 400px;" controls src="world5.mp4"></video>
-
-    <p class="blink">Bo0000omboclat</p>
-    <video style="max-width: 1000px;" controls src="world2.mp4"></video>
-    <p>Sit down</p>
-    <video style="max-width: 1000px;" controls src="world3.mp4"></video>
-    <p>Successfuuuully</p>
-    <video style="max-width: 600px;" controls src="world4.mp4"></video>
-
-    <hr>
-    <h3 class="blink">One song</h3>
-    <iframe width="951" height="535" src="https://www.youtube.com/embed/IxX_QHay02M?enablejsapi=1" title="W&W - OIIA OIIA (Spinning Cat)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-    <hr>
-    <p1 style="color: white; font-size: 40px;">Best</p1>
-    <a href="https://www.yout-ube.com/watch?v=adLGHcj_fmA&list=PL4c9FgLDExbQ4-hhFYsb6gmJW3HTDwiYr"><img src="https://i.ytimg.com/vi/adLGHcj_fmA/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLCfkIgwkqYOlua3VyVPhAElsMfM1Q" alt=""></a>
-
-    <hr>
-    <p style="color: white; font-size: 40px; text-decoration: underline 6px black;">just</p>
-    <p style="font-size: 265px; color: #ffffff; margin: 0px;">HAPPY</p>
-    <p style="font-size: 265px; color: #ffffff; margin: 0px;">PEACE</p>
-    <p style="font-size: 265px; color: #ffffff; margin: 0px;">SMILE</p>
-    <hr>
-    <br><br>
-    <p1>Real</p1>
-    <p1 style="font-size:35px; color: #ffffff; border: solid; padding: 20px; margin: 0x;">ADVICE IS NOT WISDOM</p1>
-    <p1 style="font-size: 90px; color: #ffffff; border: solid; padding: 20px; margin: 0x;">Thanks God for everything</p1>
-
-    <p class="counter">We : 0212</p>
-
+    <img src="https://i.giphy.com/es9gfU82A3Vk1rHBD4.webp" alt="Turtle">
+    <p style="font-size: 1.5rem;">Living like turtle</p>
+    <div class="music-container">
+        <div class="song-info">
+            <div class="song-title">BsWorld</div>
+            <button id="playBtn">Play</button>
+            <button id="pauseBtn" style="display: none;">Pause</button>
+        </div> 
+        <div class="time">
+            <span id="currentTime">0:00</span>
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <span id="duration">0:00</span>
+        </div>
+    </div>
+    <audio id="audioPlayer" src="https://blackswan19.github.io/bsfesta/english/bsworld.mp3"></audio>
     <script>
-        function getRandomColor() {
-            const colors = ['#000080', '#8B4513', '#00FF00']; /* Dark blue, brown, green */
-            return colors[Math.floor(Math.random() * colors.length)];
+        const audio = document.getElementById('audioPlayer');
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationEl = document.getElementById('duration');
+        function formatTime(seconds) {
+            const min = Math.floor(seconds / 60);
+            const sec = Math.floor(seconds % 60);
+            return `${min}:${sec < 10 ? '0' : ''}${sec}`;
         }
-
-        let discoInterval = null;
-        let currentPlayer = null;
-
-        const videoTempoMap = {
-            'IxX_QHay02M': 100
-        };
-
-        function updateDisco() {
-            document.body.style.backgroundColor = getRandomColor();
-            document.querySelectorAll('p, h3').forEach(element => {
-                element.style.color = getRandomColor();
-            });
+        function updateProgress() {
+            if (audio.duration) {
+                const progressPercent = (audio.currentTime / audio.duration) * 100;
+                progressBar.style.width = `${progressPercent}%`;
+                currentTimeEl.textContent = formatTime(audio.currentTime);
+            }
         }
-
-        function startDisco(player) {
-            if (discoInterval) stopDisco();
-            const videoId = player.getVideoUrl().split('v=')[1].split('&')[0];
-            let baseSpeed = videoTempoMap[videoId] || 500;
-            const playbackRate = player.getPlaybackRate();
-            const adjustedSpeed = Math.max(50, baseSpeed / playbackRate);
-            discoInterval = setInterval(updateDisco, adjustedSpeed);
-            currentPlayer = player;
-        }
-
-        function stopDisco() {
-            if (discoInterval) {
-                clearInterval(discoInterval);
-                discoInterval = null;
-                document.body.style.background = '#000080';
-                document.querySelectorAll('p, h3').forEach(element => {
-                    element.style.color = '#00FF00';
-                });
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                playBtn.style.display = 'none';
+                pauseBtn.style.display = 'flex';
+            } else {
+                audio.pause();
+                playBtn.style.display = 'flex';
+                pauseBtn.style.display = 'none';
             }
         }
 
-        document.querySelectorAll('iframe').forEach(iframe => {
-            let src = iframe.src;
-            if (src.includes('youtube.com') && !src.includes('enablejsapi=1')) {
-                iframe.src = src + (src.includes('?') ? '&' : '?') + 'enablejsapi=1';
+        playBtn.addEventListener('click', togglePlay);
+        pauseBtn.addEventListener('click', togglePlay);
+
+        audio.addEventListener('loadedmetadata', () => {
+            durationEl.textContent = formatTime(audio.duration);
+        });
+
+        audio.addEventListener('timeupdate', updateProgress);
+
+        progressContainer.addEventListener('click', (e) => {
+            const rect = progressContainer.getBoundingClientRect();
+            const offsetX = e.clientX - rect.left;
+            const width = rect.width;
+            const seekTime = (offsetX / width) * audio.duration;
+            audio.currentTime = seekTime;
+        });
+        audio.addEventListener('ended', () => {
+            playBtn.style.display = 'flex';
+            pauseBtn.style.display = 'none';
+            progressBar.style.width = '0%';
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                togglePlay();
             }
         });
-
-        window.onYouTubeIframeAPIReady = function() {
-            document.querySelectorAll('iframe').forEach(iframe => {
-                const player = new YT.Player(iframe, {
-                    events: {
-                        'onStateChange': function(event) {
-                            if (event.data === YT.PlayerState.PLAYING) {
-                                startDisco(event.target);
-                            } else {
-                                stopDisco();
-                            }
-                        },
-                        'onPlaybackRateChange': function(event) {
-                            if (currentPlayer === event.target && discoInterval) {
-                                startDisco(event.target);
-                            }
-                        }
-                    }
-                });
-            });
-        };
-
-        // Video size toggle
-        document.querySelectorAll('video').forEach(video => {
-            video.addEventListener('play', function() {
-                this.classList.add('playing');
-            });
-            video.addEventListener('pause', function() {
-                this.classList.remove('playing');
-            });
-            video.addEventListener('ended', function() {
-                this.classList.remove('playing');
-            });
-        });
-
-        const tag = document.createElement('script');
-        tag.src = 'https://www.youtube.com/iframe_api';
-        const firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-             document.addEventListener("DOMContentLoaded", () => {
-            const customMenu = document.querySelector(".custom-menu");
-        
-            // Show custom menu on right-click
-            document.addEventListener("contextmenu", (event) => {
-                event.preventDefault();
-                customMenu.style.display = "block";
-                customMenu.style.top = `${event.pageY}px`;
-                customMenu.style.left = `${event.pageX}px`;
-            });
-        
-            // Hide the menu when clicking elsewhere
-            document.addEventListener("click", () => {
-                customMenu.style.display = "none";
-            });
-        });
-    
-    
     </script>
 </body>
 </html>
