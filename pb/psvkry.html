@@ -4,43 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BsWorld</title>
+    <link rel="icon" type="image/x-icon" href="https://drawingsof.com/wp-content/uploads/2022/11/BG2-1080x1080.png.webp">
     <style>
         * {
             scrollbar-width: none;
         }
         body {
             display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: rgb(0, 67, 0);
-    flex-direction: column-reverse;
-    color: white;
-    font-family: system-ui, -apple-system, sans-serif;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: rgb(0, 67, 0);
+            flex-direction: column-reverse;
+            color: white;
+            font-family: system-ui, -apple-system, sans-serif;
         }
         img {
-                width: 100%;
-    max-width: 300px;
+            width: 100%;
+            max-width: 300px;
         }
         .music-container {
-display: flex;
-    align-items: center;
-    gap: 10px;
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 5px;
-    border-radius: 5px;
-    flex-direction: column;
-    position: fixed;
-    bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 5px;
+            border-radius: 5px;
+            flex-direction: column;
+            position: fixed;
+            bottom: 20px;
         }
         .song-info {
             text-align: center;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
         }
         .song-title {
-               font-size: 15px;
+            font-size: 15px;
         }
         .song-artist {
             font-size: 0.9rem;
@@ -53,14 +54,14 @@ display: flex;
         }
         button {
             background-color: #004300;
-    color: white;
-    border: none;
-    width: 55px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 500;
+            color: white;
+            border: none;
+            width: 55px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
         }
 
         .progress-container {
@@ -78,19 +79,17 @@ display: flex;
             transition: width 0.1s linear;
         }
         .time {
-           display: flex;
-    justify-content: space-between;
-    width: 250px;
-    align-items: center;
-    gap: 10px;
+            display: flex;
+            justify-content: space-between;
+            width: 250px;
+            align-items: center;
+            gap: 10px;
         }
     </style>
 </head>
 <body>
-    <p onclick=""><a style="text-decoration: none;
-    color: #005d00;" href="https://blackswan19.github.io/bscrop/formbs">FromBS</a></p>
+    <p onclick=""><a style="text-decoration: none; color: #005d00;" href="https://blackswan19.github.io/bscrop/formbs">FromBS</a></p>
     <img src="https://i.giphy.com/es9gfU82A3Vk1rHBD4.webp" alt="Turtle">
-
     <p style="font-size: 1.5rem;">Living like turtle</p>
 
     <!-- Music Player -->
@@ -109,7 +108,7 @@ display: flex;
         </div>
     </div>
 
-    <audio id="audioPlayer" src="https://blackswan19.github.io/bsfesta/english/What%20A%20Wonderful%20World.mp3"></audio>
+    <audio id="audioPlayer" src="https://blackswan19.github.io/bsfesta/english/What%20A%20Wonderful%20World.mp3" loop></audio>
 
     <script>
         const audio = document.getElementById('audioPlayer');
@@ -133,6 +132,7 @@ display: flex;
                 currentTimeEl.textContent = formatTime(audio.currentTime);
             }
         }
+
         function togglePlay() {
             if (audio.paused) {
                 audio.play();
@@ -161,13 +161,6 @@ display: flex;
             const seekTime = (offsetX / width) * audio.duration;
             audio.currentTime = seekTime;
         });
-
-        audio.addEventListener('ended', () => {
-            playBtn.style.display = 'flex';
-            pauseBtn.style.display = 'none';
-            progressBar.style.width = '0%';
-        });
-
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Space') {
                 e.preventDefault();
