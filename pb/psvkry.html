@@ -88,7 +88,7 @@ display: flex;
 </head>
 <body>
     <p onclick=""><a style="text-decoration: none;
-    color: green;" href="https://blackswan19.github.io/bsfesta/music?song=Natural">song</a></p>
+    color: #005d00;" href="https://blackswan19.github.io/bsfesta/music">More</a></p>
     <img src="https://i.giphy.com/es9gfU82A3Vk1rHBD4.webp" alt="Turtle">
 
     <p style="font-size: 1.5rem;">Living like turtle</p>
@@ -109,7 +109,7 @@ display: flex;
         </div>
     </div>
 
-    <audio id="audioPlayer" src="https://blackswan19.github.io/bsfesta/english/bsworld.mp3"></audio>
+    <audio id="audioPlayer" src="https://blackswan19.github.io/bsfesta/english/What%20A%20Wonderful%20World.mp3"></audio>
 
     <script>
         const audio = document.getElementById('audioPlayer');
@@ -120,14 +120,12 @@ display: flex;
         const currentTimeEl = document.getElementById('currentTime');
         const durationEl = document.getElementById('duration');
 
-        // Format time helper
         function formatTime(seconds) {
             const min = Math.floor(seconds / 60);
             const sec = Math.floor(seconds % 60);
             return `${min}:${sec < 10 ? '0' : ''}${sec}`;
         }
 
-        // Update progress
         function updateProgress() {
             if (audio.duration) {
                 const progressPercent = (audio.currentTime / audio.duration) * 100;
@@ -135,8 +133,6 @@ display: flex;
                 currentTimeEl.textContent = formatTime(audio.currentTime);
             }
         }
-
-        // Toggle Play/Pause
         function togglePlay() {
             if (audio.paused) {
                 audio.play();
@@ -149,19 +145,15 @@ display: flex;
             }
         }
 
-        // Event Listeners
         playBtn.addEventListener('click', togglePlay);
         pauseBtn.addEventListener('click', togglePlay);
 
-        // Update duration when metadata is loaded
         audio.addEventListener('loadedmetadata', () => {
             durationEl.textContent = formatTime(audio.duration);
         });
 
-        // Update progress bar while playing
         audio.addEventListener('timeupdate', updateProgress);
 
-        // Click on progress bar to seek
         progressContainer.addEventListener('click', (e) => {
             const rect = progressContainer.getBoundingClientRect();
             const offsetX = e.clientX - rect.left;
@@ -170,14 +162,12 @@ display: flex;
             audio.currentTime = seekTime;
         });
 
-        // Auto pause button state when audio ends
         audio.addEventListener('ended', () => {
             playBtn.style.display = 'flex';
             pauseBtn.style.display = 'none';
             progressBar.style.width = '0%';
         });
 
-        // Optional: Keyboard shortcut (Spacebar)
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Space') {
                 e.preventDefault();
