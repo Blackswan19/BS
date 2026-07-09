@@ -11,162 +11,28 @@
         }
         body {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: rgb(0, 67, 0);
-            flex-direction: column-reverse;
-            color: white;
-            font-family: system-ui, -apple-system, sans-serif;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100vh;
+    background-color: rgb(38 38 38);
+    flex-direction: column-reverse;
+    color: white;
+    font-family: system-ui, -apple-system, sans-serif;
         }
         img {
             width: 100%;
             max-width: 300px;
-        }
-        .music-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 5px;
-            border-radius: 5px;
-            flex-direction: column;
-            position: fixed;
-            bottom: 20px;
-        }
-        .song-info {
-            text-align: center;
-            width: 100%;
-            display: flex;
-            justify-content: space-around;
-        }
-        .song-title {
-            font-size: 15px;
-        }
-        .song-artist {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-        .controls {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-        button {
-            background-color: #004300;
-    color: white;
-    border: none;
-    width: 55px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 500;
-    border-radius: 3px;
-        }
-
-        .progress-container {
-               width: 250px;
-    height: 5px;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 1px;
-    overflow: hidden;
-    cursor: pointer;
-        }
-        .progress-bar {
-            height: 100%;
-            background: #004300;
-            width: 0%;
-            transition: width 0.1s linear;
-        }
-        .time {
-            display: flex;
-            justify-content: space-between;
-            width: 250px;
-            align-items: center;
-            gap: 10px;
-        }
+        } 
     </style>
 </head>
 <body>
-    <p onclick=""><a style="text-decoration: none; color: #005d00;" href="https://blackswan19.github.io/bscrop/formbs">FromBS</a></p>
-    <img src="https://i.giphy.com/es9gfU82A3Vk1rHBD4.webp" alt="Turtle">
-    <p style="font-size: 1.5rem;">Living like turtle</p>
-
-    <div class="music-container">
-        <div class="song-info">
-            <div class="song-title">BsWorld</div>
-            <button id="playBtn">Play</button>
-            <button id="pauseBtn" style="display: none;">Pause</button>
-        </div> 
-        <div class="time">
-            <span id="currentTime">00:00</span>
-            <div class="progress-container" id="progressContainer">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-            <span id="duration">00:00</span>
-        </div>
-    </div>
-
-    <audio id="audioPlayer" src="https://blackswan19.github.io/bsfesta/english/What%20A%20Wonderful%20World.mp3" loop></audio>
-
-    <script>
-        const audio = document.getElementById('audioPlayer');
-        const playBtn = document.getElementById('playBtn');
-        const pauseBtn = document.getElementById('pauseBtn');
-        const progressBar = document.getElementById('progressBar');
-        const progressContainer = document.getElementById('progressContainer');
-        const currentTimeEl = document.getElementById('currentTime');
-        const durationEl = document.getElementById('duration');
-
-       function formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    
-    return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-}
-        function updateProgress() {
-    if (audio.duration) {
-        const progressPercent = (audio.currentTime / audio.duration) * 100;
-        progressBar.style.width = `${progressPercent}%`;
-        currentTimeEl.textContent = formatTime(audio.currentTime);
-    }
-}
-
-        function togglePlay() {
-            if (audio.paused) {
-                audio.play();
-                playBtn.style.display = 'none';
-                pauseBtn.style.display = 'flex';
-            } else {
-                audio.pause();
-                playBtn.style.display = 'flex';
-                pauseBtn.style.display = 'none';
-            }
-        }
-
-        playBtn.addEventListener('click', togglePlay);
-        pauseBtn.addEventListener('click', togglePlay);
-
-        audio.addEventListener('loadedmetadata', () => {
-            durationEl.textContent = formatTime(audio.duration);
-        });
-
-        audio.addEventListener('timeupdate', updateProgress);
-
-        progressContainer.addEventListener('click', (e) => {
-            const rect = progressContainer.getBoundingClientRect();
-            const offsetX = e.clientX - rect.left;
-            const width = rect.width;
-            const seekTime = (offsetX / width) * audio.duration;
-            audio.currentTime = seekTime;
-        });
-        document.addEventListener('keydown', (e) => {
-            if (e.code === 'Space') {
-                e.preventDefault();
-                togglePlay();
-            }
-        });
-    </script>
+    <p><a style="text-decoration: none;
+    color: white;" href="https://blackswan19.github.io/bscrop/formbs">FromBS</a></p>
+    <a style="color: black;
+    font-size: 60px;
+    font-style: italic;
+    font-weight: 900;" href="https://blackswan19.github.io/bsfesta/music?song=312">FREEDOM!</a>
+    <p style="font-size: 15px;
+    font-weight: 400;">Living like turtle</p>
 </body>
 </html>
