@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Swan | Efiles</title>
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/27GXWVgg/BS.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald|Noto+Sans">
+    <style>
+               @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+* {
+	-webkit-tap-highlight-color: transparent;
+	margin: 0;
+	padding: 0;
+	font-family: 'Poppins', sans-serif;
+    scrollbar-width: thin;letter-spacing: 0.3px;
+    scrollbar-color: rgba(255, 255, 255, 0.648) transparent;
+}
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: black;
+            text-align: center;
+            padding: 0 20px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+
+            /* Rainbow animated gradient */
+            background: linear-gradient(-45deg, 
+                #ff0000,   /* Red */
+                #ff7f00,   /* Orange */
+                #ffff00,   /* Yellow */
+                #00ff00,   /* Green */
+                #0000ff,   /* Blue */
+                #4b0082,   /* Indigo */
+                #9400d3    /* Violet */
+            );
+            background-size: 400% 400%;
+            animation: rainbowBG 12s ease infinite;
+        }
+
+        @keyframes rainbowBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        h1 {
+            font-size: 100px;
+            font-weight: 600;
+            color: black;
+            transition: color 0.4s ease, text-shadow 0.4s ease;
+        }
+        .bs {
+            position: fixed;
+            bottom: 15px;
+        }
+
+        .bs a {
+           color: white;
+    padding: 6px 12px;
+    background: #00000087;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 9999px;
+    transition: all 0.4s ease-in-out;
+        }
+
+        .bs a:hover {
+            color: white;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="bs">
+        <a href="https://blackswan19.github.io/bscrop/formbs">Black Swan</a>
+    </div>
+
+    <div class="box">
+        <h1>BsRora</h1>
+    </div>
+
+    <script>
+        // document.addEventListener('contextmenu', e => e.preventDefault());
+    </script>
+</body>
+</html>
