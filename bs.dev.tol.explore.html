@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML Coder — Live Preview</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --panel: #1a1d27;
+      --border: #2a2e3a;
+      --text: #e6e8ee;
+      --muted: #8b90a0;
+      --accent: #6c8cff;
+      --accent-hover: #5a7aef;
+      --success: #3dd68c;
+      --radius: 10px;
+      --font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", "SF Mono", Consolas, monospace;
+      --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      height: 52px;
+      flex-shrink: 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-icon {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #6c8cff, #a78bfa);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, transform 0.1s;
+      font-family: inherit;
+    }
+
+    .btn:hover { background: #252836; border-color: #3a3f4f; }
+    .btn:active { transform: scale(0.97); }
+
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+
+    .btn-download {
+      background: #2b6cc2;
+      border-color: #2b6cc2;
+      color: #fff;
+    }
+    .btn-download:hover { background: #245ba8; border-color: #245ba8; }
+
+    .btn-ghost {
+      background: transparent;
+      border-color: transparent;
+      color: var(--muted);
+    }
+    .btn-ghost:hover { color: var(--text); background: #252836; }
+
+    .btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+    .main {
+      display: flex;
+      height: calc(100% - 52px);
+      overflow: hidden;
+    }
+
+    .panel {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: var(--panel);
+    }
+
+    .panel-editor {
+      flex: 1;
+      border-right: 1px solid var(--border);
+    }
+
+    .panel-preview { flex: 1; position: relative; }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--border);
+      background: #151820;
+      height: 40px;
+      flex-shrink: 0;
+    }
+
+    .panel-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+
+    /* ===== Easy toolbar ===== */
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 10px;
+      background: #151820;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .tb-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      min-width: 34px;
+      height: 32px;
+      padding: 0 10px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.12s, border-color 0.12s, color 0.12s;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    .tb-btn:hover {
+      background: #252836;
+      border-color: #4a5068;
+    }
+
+    .tb-btn:active { transform: scale(0.96); }
+
+    .tb-btn.bold { font-weight: 800; }
+    .tb-btn.italic { font-style: italic; }
+    .tb-btn.underline { text-decoration: underline; }
+
+    .tb-sep {
+      width: 1px;
+      height: 22px;
+      background: var(--border);
+      margin: 0 4px;
+    }
+
+    .tb-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-right: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-weight: 600;
+    }
+
+    #editor {
+      flex: 1;
+      width: 100%;
+      border: none;
+      outline: none;
+      resize: none;
+      background: var(--bg);
+      color: #d4d8e4;
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      line-height: 1.55;
+      padding: 14px 16px;
+      tab-size: 2;
+      white-space: pre;
+      overflow: auto;
+    }
+
+    #editor::placeholder { color: #4a5060; }
+
+    #preview-frame {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #fff;
+    }
+
+    .preview-empty {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--muted);
+      background: #fff;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .preview-empty.visible { opacity: 1; }
+    .preview-empty svg { width: 40px; height: 40px; opacity: 0.4; }
+
+    .resizer {
+      width: 5px;
+      background: var(--border);
+      cursor: col-resize;
+      flex-shrink: 0;
+      transition: background 0.15s;
+      position: relative;
+      z-index: 5;
+    }
+    .resizer:hover,
+    .resizer.dragging { background: var(--accent); }
+
+    .fs-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: #fff;
+      display: none;
+      flex-direction: column;
+    }
+    .fs-overlay.active { display: flex; }
+
+    .fs-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      height: 48px;
+      flex-shrink: 0;
+    }
+    .fs-bar .logo { font-size: 14px; }
+
+    #fs-frame {
+      flex: 1;
+      width: 100%;
+      border: none;
+      background: #fff;
+    }
+
+    .status {
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+    }
+
+    /* Simple prompt modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-backdrop.open { display: flex; }
+
+    .modal {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+    .modal h3 {
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+    .modal p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .modal input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      margin-bottom: 16px;
+    }
+    .modal input:focus { border-color: var(--accent); }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    @media (max-width: 700px) {
+      .main { flex-direction: column; }
+      .panel-editor {
+        flex: 0 0 48%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .resizer {
+        width: 100%;
+        height: 5px;
+        cursor: row-resize;
+      }
+      .toolbar { gap: 3px; }
+      .tb-btn { padding: 0 8px; font-size: 12px; height: 30px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+      <div class="logo-icon">&lt;/&gt;</div>
+      <span>HTML Coder</span>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-ghost" id="btn-reset" title="Reset to sample">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        Reset
+      </button>
+      <button class="btn" id="btn-copy" title="Copy code">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy
+      </button>
+      <button class="btn btn-download" id="btn-download" title="Download HTML with BsDevTol badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download
+      </button>
+      <button class="btn btn-primary" id="btn-fullscreen" title="View preview in full screen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+        Full Screen
+      </button>
+    </div>
+  </header>
+
+  <div class="main" id="main">
+    <div class="panel panel-editor" id="panel-editor">
+      <div class="panel-header">
+        <span class="panel-title">HTML Code</span>
+        <div class="status">
+          <span class="status-dot"></span>
+          <span id="status-text">Ready</span>
+        </div>
+      </div>
+
+      <!-- Easy toolbar for beginners -->
+      <div class="toolbar" id="toolbar">
+        <span class="tb-label">Easy</span>
+
+        <button class="tb-btn bold" data-action="bold" title="Make text bold (thick)">
+          B
+        </button>
+        <button class="tb-btn italic" data-action="italic" title="Make text italic">
+          I
+        </button>
+        <button class="tb-btn underline" data-action="underline" title="Underline text">
+          U
+        </button>
+
+        <div class="tb-sep"></div>
+
+        <button class="tb-btn" data-action="br" title="Next line / line break">
+          ↵ Line
+        </button>
+        <button class="tb-btn" data-action="p" title="New paragraph">
+          ¶ Para
+        </button>
+        <button class="tb-btn" data-action="hr" title="Horizontal line">
+          ― Line
+        </button>
+
+        <div class="tb-sep"></div>
+
+        <button class="tb-btn" data-action="link" title="Add a clickable link">
+          🔗 Link
+        </button>
+        <button class="tb-btn" data-action="image" title="Add an image">
+          🖼 Image
+        </button>
+
+        <div class="tb-sep"></div>
+
+        <button class="tb-btn" data-action="h1" title="Big heading">
+          H1
+        </button>
+        <button class="tb-btn" data-action="h2" title="Medium heading">
+          H2
+        </button>
+        <button class="tb-btn" data-action="h3" title="Small heading">
+          H3
+        </button>
+
+        <div class="tb-sep"></div>
+
+        <button class="tb-btn" data-action="ul" title="Bullet list">
+          • List
+        </button>
+        <button class="tb-btn" data-action="center" title="Center text">
+          ⇔ Center
+        </button>
+        <button class="tb-btn" data-action="color" title="Colored text">
+          🎨 Color
+        </button>
+      </div>
+
+      <textarea id="editor" spellcheck="false" placeholder="Write or paste HTML here…&#10;&#10;Tip: Select text first, then click Bold / Link / etc."></textarea>
+    </div>
+
+    <div class="resizer" id="resizer"></div>
+
+    <div class="panel panel-preview" id="panel-preview">
+      <div class="panel-header">
+        <span class="panel-title">Live Preview</span>
+      </div>
+      <iframe id="preview-frame" sandbox="allow-scripts allow-same-origin allow-forms allow-modals" title="Preview"></iframe>
+      <div class="preview-empty" id="preview-empty">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        <span>Your preview will appear here</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen -->
+  <div class="fs-overlay" id="fs-overlay">
+    <div class="fs-bar">
+      <div class="logo">
+        <div class="logo-icon" style="width:24px;height:24px;font-size:12px">&lt;/&gt;</div>
+        <span>Full Screen Preview</span>
+      </div>
+      <button class="btn" id="btn-exit-fs">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>
+        Exit Full Screen
+      </button>
+    </div>
+    <iframe id="fs-frame" sandbox="allow-scripts allow-same-origin allow-forms allow-modals" title="Fullscreen Preview"></iframe>
+  </div>
+
+  <!-- Prompt modal -->
+  <div class="modal-backdrop" id="modal">
+    <div class="modal">
+      <h3 id="modal-title">Enter value</h3>
+      <p id="modal-desc"></p>
+      <input type="text" id="modal-input" autocomplete="off" />
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="modal-cancel">Cancel</button>
+        <button class="btn btn-primary" id="modal-ok">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const editor = document.getElementById('editor');
+    const frame = document.getElementById('preview-frame');
+    const fsFrame = document.getElementById('fs-frame');
+    const fsOverlay = document.getElementById('fs-overlay');
+    const statusText = document.getElementById('status-text');
+    const previewEmpty = document.getElementById('preview-empty');
+    const resizer = document.getElementById('resizer');
+    const panelEditor = document.getElementById('panel-editor');
+    const main = document.getElementById('main');
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDesc = document.getElementById('modal-desc');
+    const modalInput = document.getElementById('modal-input');
+
+    const BS_BADGE = `<a style="    color: white;
+    text-decoration: none;" href="https://blackswan19.github.io/BS/bs.dev.tol"><div class="madein" style="    position: absolute;
+    white-space: nowrap;
+    bottom: 0;
+    right: 0;
+    background: #2b6cc2;
+    padding: 3px;
+    text-transform: capitalize;
+    font-size: 13px;">
+    made in BsDevTol
+</div></a>`;
+
+    const SAMPLE = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Page</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      position: relative;
+      padding: 20px;
+    }
+    .card {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      max-width: 420px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    }
+    h1 { font-size: 2rem; margin-bottom: 12px; }
+    p { opacity: 0.9; line-height: 1.6; margin-bottom: 20px; }
+    button {
+      background: white;
+      color: #5a3d8a;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Hello World 👋</h1>
+    <p>Select text and use the toolbar above to make it <strong>bold</strong>, add links, line breaks, and more.</p>
+    <button onclick="alert('It works!')">Click me</button>
+  </div>
+</body>
+</html>`;
+
+    editor.value = SAMPLE;
+    updatePreview();
+
+    // ----- Live preview -----
+    let debounceTimer;
+    editor.addEventListener('input', () => {
+      statusText.textContent = 'Updating…';
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(updatePreview, 160);
+    });
+
+    editor.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        insertAtCursor('  ');
+      }
+    });
+
+    function updatePreview() {
+      const code = editor.value.trim();
+      if (!code) {
+        frame.srcdoc = '';
+        fsFrame.srcdoc = '';
+        previewEmpty.classList.add('visible');
+        statusText.textContent = 'Empty';
+        return;
+      }
+      previewEmpty.classList.remove('visible');
+      frame.srcdoc = code;
+      fsFrame.srcdoc = code;
+      statusText.textContent = 'Live';
+    }
+
+    // ----- Insert / wrap helpers -----
+    function getSelection() {
+      const start = editor.selectionStart;
+      const end = editor.selectionEnd;
+      const selected = editor.value.substring(start, end);
+      return { start, end, selected };
+    }
+
+    function setCursor(pos) {
+      editor.focus();
+      editor.selectionStart = editor.selectionEnd = pos;
+    }
+
+    function insertAtCursor(text) {
+      const { start, end } = getSelection();
+      const before = editor.value.substring(0, start);
+      const after = editor.value.substring(end);
+      editor.value = before + text + after;
+      setCursor(start + text.length);
+      editor.dispatchEvent(new Event('input'));
+    }
+
+    function wrapSelection(before, after, placeholder) {
+      const { start, end, selected } = getSelection();
+      const text = selected || placeholder || '';
+      const result = before + text + after;
+      const beforeStr = editor.value.substring(0, start);
+      const afterStr = editor.value.substring(end);
+      editor.value = beforeStr + result + afterStr;
+
+      if (selected) {
+        // keep selection around the inner text
+        editor.focus();
+        editor.selectionStart = start + before.length;
+        editor.selectionEnd = start + before.length + text.length;
+      } else {
+        // place cursor inside the tags
+        setCursor(start + before.length + text.length);
+      }
+      editor.dispatchEvent(new Event('input'));
+    }
+
+    // ----- Modal (for link / image / color) -----
+    let modalResolve = null;
+
+    function askUser(title, desc, defaultValue = '') {
+      return new Promise((resolve) => {
+        modalResolve = resolve;
+        modalTitle.textContent = title;
+        modalDesc.textContent = desc;
+        modalInput.value = defaultValue;
+        modal.classList.add('open');
+        setTimeout(() => {
+          modalInput.focus();
+          modalInput.select();
+        }, 50);
+      });
+    }
+
+    function closeModal(value) {
+      modal.classList.remove('open');
+      if (modalResolve) {
+        modalResolve(value);
+        modalResolve = null;
+      }
+    }
+
+    document.getElementById('modal-ok').addEventListener('click', () => {
+      closeModal(modalInput.value.trim());
+    });
+    document.getElementById('modal-cancel').addEventListener('click', () => {
+      closeModal(null);
+    });
+    modalInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') closeModal(modalInput.value.trim());
+      if (e.key === 'Escape') closeModal(null);
+    });
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal(null);
+    });
+
+    // ----- Toolbar actions -----
+    document.getElementById('toolbar').addEventListener('click', async (e) => {
+      const btn = e.target.closest('[data-action]');
+      if (!btn) return;
+      const action = btn.dataset.action;
+      editor.focus();
+
+      switch (action) {
+        case 'bold':
+          wrapSelection('<strong>', '</strong>', 'bold text');
+          break;
+        case 'italic':
+          wrapSelection('<em>', '</em>', 'italic text');
+          break;
+        case 'underline':
+          wrapSelection('<u>', '</u>', 'underlined text');
+          break;
+        case 'br':
+          insertAtCursor('<br>\n');
+          break;
+        case 'p':
+          wrapSelection('<p>', '</p>', 'Your paragraph here');
+          break;
+        case 'hr':
+          insertAtCursor('\n<hr>\n');
+          break;
+        case 'h1':
+          wrapSelection('<h1>', '</h1>', 'Big Heading');
+          break;
+        case 'h2':
+          wrapSelection('<h2>', '</h2>', 'Medium Heading');
+          break;
+        case 'h3':
+          wrapSelection('<h3>', '</h3>', 'Small Heading');
+          break;
+        case 'ul':
+          insertAtCursor('<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n  <li>Item 3</li>\n</ul>\n');
+          break;
+        case 'center':
+          wrapSelection('<div style="text-align:center">', '</div>', 'Centered text');
+          break;
+        case 'link': {
+          const url = await askUser(
+            'Add Link',
+            'Paste the website address (URL)',
+            'https://'
+          );
+          if (url === null) break;
+          const href = url || 'https://example.com';
+          wrapSelection('<a href="' + href + '" target="_blank">', '</a>', 'click here');
+          break;
+        }
+        case 'image': {
+          const src = await askUser(
+            'Add Image',
+            'Paste the image URL',
+            'https://'
+          );
+          if (src === null) break;
+          const url = src || 'https://via.placeholder.com/300x200';
+          insertAtCursor('<img src="' + url + '" alt="image" style="max-width:100%;height:auto;">\n');
+          break;
+        }
+        case 'color': {
+          const color = await askUser(
+            'Text Color',
+            'Type a color name or code (e.g. red, blue, #ff5500)',
+            'red'
+          );
+          if (color === null) break;
+          const c = color || 'red';
+          wrapSelection('<span style="color:' + c + '">', '</span>', 'colored text');
+          break;
+        }
+      }
+    });
+
+    // ----- Badge inject + Download -----
+    function injectBadge(html) {
+      if (html.includes('made in BsDevTol') || html.includes('blackswan19.github.io/BS/bs.dev.tol')) {
+        return html;
+      }
+      const lower = html.toLowerCase();
+      const bodyClose = lower.lastIndexOf('</body>');
+      if (bodyClose !== -1) {
+        return html.slice(0, bodyClose) + '\n' + BS_BADGE + '\n' + html.slice(bodyClose);
+      }
+      return html + '\n' + BS_BADGE + '\n';
+    }
+
+    document.getElementById('btn-download').addEventListener('click', () => {
+      let code = editor.value.trim();
+      if (!code) {
+        alert('Nothing to download — write some HTML first.');
+        return;
+      }
+      code = injectBadge(code);
+      const blob = new Blob([code], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'index.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      const btn = document.getElementById('btn-download');
+      const original = btn.innerHTML;
+      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Downloaded!`;
+      setTimeout(() => { btn.innerHTML = original; }, 1600);
+    });
+
+    // Fullscreen
+    document.getElementById('btn-fullscreen').addEventListener('click', () => {
+      fsFrame.srcdoc = editor.value;
+      fsOverlay.classList.add('active');
+    });
+    document.getElementById('btn-exit-fs').addEventListener('click', () => {
+      fsOverlay.classList.remove('active');
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && fsOverlay.classList.contains('active')) {
+        fsOverlay.classList.remove('active');
+      }
+    });
+
+    // Copy
+    document.getElementById('btn-copy').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(editor.value);
+        const btn = document.getElementById('btn-copy');
+        const original = btn.innerHTML;
+        btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Copied!`;
+        setTimeout(() => { btn.innerHTML = original; }, 1500);
+      } catch (err) {
+        alert('Could not copy');
+      }
+    });
+
+    // Reset
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      if (confirm('Reset to the sample code?')) {
+        editor.value = SAMPLE;
+        updatePreview();
+      }
+    });
+
+    // Resizer
+    let isDragging = false;
+    resizer.addEventListener('mousedown', () => {
+      isDragging = true;
+      resizer.classList.add('dragging');
+      document.body.style.cursor = 'col-resize';
+      document.body.style.userSelect = 'none';
+    });
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      const rect = main.getBoundingClientRect();
+      const percent = ((e.clientX - rect.left) / rect.width) * 100;
+      if (percent > 20 && percent < 80) {
+        panelEditor.style.flex = `0 0 ${percent}%`;
+      }
+    });
+    document.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        resizer.classList.remove('dragging');
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+      }
+    });
+  </script>
+</body>
+</html>
